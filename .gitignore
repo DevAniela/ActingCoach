@@ -1,0 +1,28 @@
+# Ignore NetBeans specific files
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.netbeans/
+
+# Ignore Maven target folder
+target/
+
+# Ignore compiled Java classes
+*.class
+
+# Ignore log and temp files
+*.log
+*.tmp
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE settings (if using other IDEs)
+.idea/
+.vscode/
+
+# Ignore dependency cache
+.m2/
