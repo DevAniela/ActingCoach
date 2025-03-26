@@ -29,43 +29,60 @@ public class Instructor extends User {
     }
 
     //GETTERS/SETTERS
-//    public void getSessionDetails(Session session) {
-//        if (sessions.contains(session)) {
-//            System.out.println("Session with " + session.getActor().getName() + " on " + session.getDateTime() + "");
-//        } else {
-//            System.out.println("Couldn't find session.");
-//        }
-//    }
-//
-//    public void getScheduledSessions() {
-//        System.out.println("Scheduled sessions:");
-//        for (Session session : sessions) {
-//            if (session.getDateTime().isAfter(LocalDateTime.now())) {
-//                System.out.println(session.getDateTime() + " with " + session.getActor().getName());
-//            }
-//        }
-//    }
-//
-//    //METHODS
-//    public void evaluateActor(Actor actor, Session session, Evaluation evaluation) {
-//
-//    }
-//
-//    public void addFeedback(Session session, Actor actor, String feedback) {
-//
-//    }
-//
-//    public void addObservations(Session session, String observations) {
-//
-//    }
-//
-//    public void addExercises(String exercise) {
-//
-//    }
-//
-//    public void addDialogueLine(String line) {
-//
-//    }
+    public void getSessionDetails(Session session) {
+        if (sessions.contains(session)) {
+            System.out.println("Session with " + session.getActor().getName() + " on " + session.getDateTime() + "");
+        } else {
+            System.out.println("Couldn't find session.");
+        }
+    }
+
+    public void getScheduledSessions() {
+        System.out.println("Scheduled sessions:");
+        for (Session session : sessions) {
+            if (session.getDateTime().isAfter(LocalDateTime.now())) {
+                System.out.println(session.getDateTime() + " with " + session.getActor().getName());
+            }
+        }
+    }
+
+    //METHODS
+    public void evaluateActor(Actor actor, Session session, Evaluation evaluation) {
+        if (sessions.contains(session) && session.getActor().equals(actor)) {
+            session.setEvaluation(evaluation);
+            System.out.println("Evaluation added for " + actor.getName());
+        } else {
+            System.out.println("Couldn't find session or actor.");
+        }
+    }
+
+    public void addFeedback(Session session, Actor actor, String feedback) {
+        if (sessions.contains(session) && session.getActor().equals(actor)) {
+            session.addFeedback(actor, feedback);
+            System.out.println("Evaluation added for " + actor.getName());
+        } else {
+            System.out.println("Couldn't find session or actor.");
+        }
+    }
+
+    public void addObservations(Session session, String observations) {
+        if (sessions.contains(session)) {
+            session.addObservations(observations);
+            System.out.println("Observations added to session " + session.getDateTime());
+        } else {
+            System.out.println("Couldn't find session.");
+        }
+    }
+
+    public void addExercise(String exercise) {
+        System.out.println("Exercise added: " + exercise);
+        //TO DO: salvare exercitii in baza de date (adaugarea sistemului Improvizatie)
+    }
+
+    public void addDialogueLine(String line) {
+        System.out.println("Dialogue line added: " + line);
+        //TO DO: salvare replici in baza de date (adaugarea sistemului Improvizatie)
+    }
 
     @Override
     public void authenticate() {
