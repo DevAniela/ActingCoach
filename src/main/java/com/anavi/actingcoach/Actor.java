@@ -5,6 +5,7 @@
 package com.anavi.actingcoach;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -83,63 +84,70 @@ public class Actor extends User {
 
     //METHODS
     //for character sheets
-//    public void addCharacterSheet(CharacterSheet sheet) {
-//        characterSheets.add(sheet);
-//        System.out.println("Character sheet added: " + sheet.getName());
-//    }
-//
-//    public void viewCharacterSheets() {
-//        if (characterSheets.isEmpty()) {
-//            System.out.println("No character sheets available.");
-//        } else {
-//            System.out.println("Character sheets: ");
-//            for (int i = 0; i < characterSheets.size(); i++) {
-//                System.out.println((i + 1) + ". " + characterSheets.get(i).getName());
-//            }
-//        }
-//    }
-//
-//    public void updateCharacterSheet(int index, String newDetails) {
-//        if (index >= 0 && index < characterSheets.size()) {
-//            characterSheets.get(index).setDetails(newDetails);
-//            System.out.println("Character sheet updated.");
-//        } else {
-//            System.out.println("Not a valid character sheet index.");
-//        }
-//    }
-//
-//    public void deleteCharacterSheet(int index) {
-//        if (index >= 0 && index < characterSheets.size()) {
-//            characterSheets.remove(index);
-//        } else {
-//            System.out.println("Not a valid character sheet index.");
-//        }
-//    }
-//
-//    //for sessions
-//    public void scheduleSession(Instructor instructor, LocalDateTime dateTime) {
-//        Session newSession = new Session(instructor, this, dateTime);
-//        sessions.add(newSession);
-//        System.out.println("Session scheduled with " + instructor.getName() + " on " + dateTime);
-//    }
-//
-//    public void modifySession(Session session, LocalDateTime newDate) {
-//        if (sessions.contains(session)) {
-//            session.setDate(newDate);
-//            System.out.println("Session updated to " + newDate);
-//        } else {
-//            System.out.println("Couldn't find session.");
-//        }
-//    }
-//
-//    public void cancelSession(Session session) {
-//        if (sessions.contains(session)) {
-//            session.setCancelled(true);
-//            System.out.println("Session cancelled.");
-//        } else {
-//            System.out.println("Couldn't find session.");
-//        }
-//    }
+    public void addCharacterSheet(CharacterSheet sheet) {
+        characterSheets.add(sheet);
+        System.out.println("Character sheet added: " + sheet.getName());
+    }
+
+    public void viewCharacterSheets() {
+        if (characterSheets.isEmpty()) {
+            System.out.println("No character sheets available.");
+        } else {
+            System.out.println("Character sheets: ");
+            for (int i = 0; i < characterSheets.size(); i++) {
+                System.out.println((i + 1) + ". " + characterSheets.get(i).getName());
+            }
+        }
+    }
+
+    public void updateCharacterSheet(int index, String newDetails) {
+        if (index >= 0 && index < characterSheets.size()) {
+            characterSheets.get(index).setDetails(newDetails);
+            System.out.println("Character sheet updated.");
+        } else {
+            System.out.println("Not a valid character sheet index.");
+        }
+    }
+
+    public void deleteCharacterSheet(int index) {
+        if (index >= 0 && index < characterSheets.size()) {
+            characterSheets.remove(index);
+        } else {
+            System.out.println("Not a valid character sheet index.");
+        }
+    }
+
+    //for sessions
+    public void bookSession(Instructor instructor, LocalDateTime dateTime, boolean isGroupSession, List<String> otherActors) {
+        Session newSession = new Session(this, instructor, dateTime);
+        newSession.setGroupSession(isGroupSession);
+        if (isGroupSession) {
+            newSession.setOtherActors(otherActors);
+            System.out.println("Group session booked with " + instructor.getName() + " on " + dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + " with: " + String.join(", ", otherActors));
+        } else {
+            System.out.println("Solo session booked with " + instructor.getName() + " on " + dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+        }
+        sessions.add(newSession);
+        instructor.addSession(newSession);
+    }
+
+    public void modifySession(Session session, LocalDateTime newDate) {
+        if (sessions.contains(session)) {
+            session.setDate(newDate);
+            System.out.println("Session updated to " + newDate);
+        } else {
+            System.out.println("Couldn't find session.");
+        }
+    }
+
+    public void cancelSession(Session session) {
+        if (sessions.contains(session)) {
+            session.setCancelled(true);
+            System.out.println("Session cancelled.");
+        } else {
+            System.out.println("Couldn't find session.");
+        }
+    }
 
     @Override
     public void authenticate() {
