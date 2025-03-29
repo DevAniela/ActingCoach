@@ -47,6 +47,10 @@ public class Instructor extends User {
     }
 
     //METHODS
+    void addSession(Session newSession) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     public void evaluateActor(Actor actor, Session session, Evaluation evaluation) {
         if (sessions.contains(session) && session.getActor().equals(actor)) {
             session.setEvaluation(evaluation);
@@ -76,12 +80,12 @@ public class Instructor extends User {
 
     public void addExercise(String exercise) {
         System.out.println("Exercise added: " + exercise);
-        //TO DO: salvare exercitii in baza de date (adaugarea sistemului Improvizatie)
+        //TO DO: add Improvisation system, and database to save exercises
     }
 
     public void addDialogueLine(String line) {
         System.out.println("Dialogue line added: " + line);
-        //TO DO: salvare replici in baza de date (adaugarea sistemului Improvizatie)
+        //TO DO: add Improvisation system, and database to save lines
     }
 
     @Override
