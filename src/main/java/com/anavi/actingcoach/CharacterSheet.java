@@ -9,13 +9,17 @@ package com.anavi.actingcoach;
  * @author Ana Vi
  */
 public class CharacterSheet {
-    
-    //ATRIBUTE
-    
-    //CONSTRUCTOR
-    
-    //METODE
-    
-    //GETTERI SI SETTERI
-    
+
+    //ATTRIBUTES
+    //CONSTRUCTORS
+    //GETTERS/SETTERS
+    String getName() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    void setDetails(String newDetails) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    //METHODS
 }
