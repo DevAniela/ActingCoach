@@ -85,8 +85,12 @@ public class Actor extends User {
     //METHODS
     //for character sheets
     public void addCharacterSheet(CharacterSheet sheet) {
-        characterSheets.add(sheet);
-        System.out.println("Character sheet added: " + sheet.getName());
+        if (sheet != null) {
+            characterSheets.add(sheet);
+            System.out.println("Character sheet added: " + sheet.getName());
+        } else {
+            System.out.println("Not a valid character sheet.");
+        }
     }
 
     public void viewCharacterSheets() {
@@ -119,9 +123,17 @@ public class Actor extends User {
 
     //for sessions
     public void bookSession(Instructor instructor, LocalDateTime dateTime, boolean isGroupSession, List<String> otherActors) {
+        for (Session session : sessions) {
+            if (!session.isCanceled()
+                    && !session.getDateTime().plusHours(1).isBefore(dateTime)
+                    && !session.getDateTime().minusHours(1).isAfter(dateTime)) {
+                System.out.println("You already have a session overlapping at this time.");
+                return;
+            }
+        }
         Session newSession = new Session(this, instructor, dateTime);
         newSession.setGroupSession(isGroupSession);
-        if (isGroupSession) {
+        if (isGroupSession && otherActors != null && !otherActors.isEmpty()) {
             newSession.setOtherActors(otherActors);
             System.out.println("Group session booked with " + instructor.getName() + " on " + dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + " with: " + String.join(", ", otherActors));
         } else {
@@ -131,10 +143,10 @@ public class Actor extends User {
         instructor.addSession(newSession);
     }
 
-    public void modifySession(Session session, LocalDateTime newDate) {
+    public void modifySession(Session session, LocalDateTime newDateTime) {
         if (sessions.contains(session)) {
-            session.setDate(newDate);
-            System.out.println("Session updated to " + newDate);
+            session.setDateTime(newDateTime);
+            System.out.println("Session updated to " + newDateTime);
         } else {
             System.out.println("Couldn't find session.");
         }
