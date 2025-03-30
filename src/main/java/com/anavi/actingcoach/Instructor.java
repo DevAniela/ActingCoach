@@ -29,11 +29,14 @@ public class Instructor extends User {
     }
 
     //GETTERS/SETTERS
-    public void getSessionDetails(Session session) {
+    public String getSessionDetails(Session session) {
         if (sessions.contains(session)) {
-            System.out.println("Session with " + session.getActor().getName() + " on " + session.getDateTime() + "");
+            if (session.isCanceled()) {
+                return "Session with " + session.getActor().getName() + " on " + session.getDateTime() + " is canceled.";
+            }
+            return "Session with " + session.getActor().getName() + " is on " + session.getDateTime();
         } else {
-            System.out.println("Couldn't find session.");
+            return "Couldn't find session.";
         }
     }
 
@@ -48,7 +51,7 @@ public class Instructor extends User {
 
     //METHODS
     void addSession(Session newSession) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        sessions.add(newSession);
     }
 
     public void evaluateActor(Actor actor, Session session, Evaluation evaluation) {
