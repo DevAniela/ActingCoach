@@ -29,9 +29,9 @@ public class Session {
 
     //CONSTRUCTORS
     public Session() {
-        this.dateTime = dateTime;
-        this.instructor = instructor;
-        this.actor = actor;
+        this.dateTime = LocalDateTime.now();
+        this.instructor = new Instructor();
+        this.actor = new Actor();
         this.otherActors = new ArrayList<>();
         this.feedback = new HashMap<>();
         this.observations = new ArrayList<>();
@@ -75,8 +75,8 @@ public class Session {
         return actor;
     }
 
-    public Actor setActor(Actor actor) {
-        return actor;
+    public void setActor(Actor actor) {
+        this.actor = actor;
     }
 
     void setGroupSession(boolean b) {
@@ -84,10 +84,6 @@ public class Session {
     }
 
     void setOtherActors(List<String> otherActors) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    void setDate(LocalDateTime newDate) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -109,7 +105,7 @@ public class Session {
 
     //METHODS
     public void modifySessionByActor(Instructor newInstructor, List<String> newOtherActors, LocalDateTime newDateTime) {
-        if (newDateTime.isAfter(LocalDateTime.now())) {
+        if (!canceled && newDateTime.isAfter(LocalDateTime.now())) {
             this.dateTime = newDateTime;
         } else {
             System.out.println("Not a valid date. Please look to the future and let go of the past.");
@@ -124,7 +120,7 @@ public class Session {
     }
 
     public void modifySessionByInstructor(LocalDateTime newDateTime, Map<Actor, String> newFeedback, String newObservations, Evaluation newEvaluation) {
-        if (newDateTime.isAfter(LocalDateTime.now())) {
+        if (!canceled && newDateTime.isAfter(LocalDateTime.now())) {
             this.dateTime = newDateTime;
         } else {
             System.out.println("Not a valid date. Please look to the future and let go of the past.");
@@ -145,22 +141,42 @@ public class Session {
     }
 
     public void cancelSession() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (!canceled) {
+            this.canceled = true;
+            System.out.println("Session canceled.");
+        } else {
+            System.out.println("Session is already canceled.");
+        }
     }
 
-    public boolean canceled() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean isCanceled() {
+        return canceled;
     }
 
     public void addFeedback(Actor actor, String feedback) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (actor != null && feedback != null && !feedback.isBlank()) {
+            this.feedback.put(actor, feedback);
+            System.out.println("Feedback added for " + actor.getName());
+        } else {
+            System.out.println("Feedback not valid.");
+        }
     }
 
-    public void modifyFeedback() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void modifyFeedback(Actor actor, String newFeedback) {
+        if (this.feedback.containsKey(actor) && newFeedback != null && !newFeedback.isBlank()) {
+            this.feedback.put(actor, newFeedback);
+            System.out.println("Feedback modified for " + actor.getName());
+        } else {
+            System.out.println("No feedback to modify.");
+        }
     }
 
     void addObservations(String observations) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (observations != null && !observations.isBlank()) {
+            this.observations.add(observations);
+            System.out.println("Observations added.");
+        } else {
+            System.out.println("Observations not valid.");
+        }
     }
 }
