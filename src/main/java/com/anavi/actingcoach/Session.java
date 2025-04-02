@@ -79,28 +79,35 @@ public class Session {
         this.actor = actor;
     }
 
-    void setGroupSession(boolean b) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     void setOtherActors(List<String> otherActors) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    void setCancelled(boolean b) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.otherActors = otherActors;
     }
 
     void setEvaluation(Evaluation evaluation) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.evaluation = evaluation;
     }
 
-    public Actor getFeedback(Actor actor) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String getFeedback(Actor actor) {
+        return feedback.get(actor);
     }
 
     public String getAllFeedback() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        StringBuilder allFeedback = new StringBuilder();
+        for (Map.Entry<Actor, String> entry : feedback.entrySet()) {
+            allFeedback.append(entry.getKey().getName())
+                    .append(": ")
+                    .append(entry.getValue())
+                    .append("\n");
+        }
+        return allFeedback.toString();
+    }
+
+    void setCancelled(boolean b) {
+        this.canceled = b;
+    }
+
+    void setGroupSession(boolean b) {
+        this.isGroupSession = b;
     }
 
     //METHODS
@@ -171,7 +178,7 @@ public class Session {
         }
     }
 
-    void addObservations(String observations) {
+    public void addObservations(String observations) {
         if (observations != null && !observations.isBlank()) {
             this.observations.add(observations);
             System.out.println("Observations added.");
