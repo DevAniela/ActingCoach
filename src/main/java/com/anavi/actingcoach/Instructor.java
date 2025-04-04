@@ -7,6 +7,7 @@ package com.anavi.actingcoach;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -54,7 +55,7 @@ public class Instructor extends User {
         sessions.add(newSession);
     }
 
-    public void evaluateActor(Actor actor, Session session, Evaluation evaluation) {
+    public void evaluateActor(Actor actor, Session session, Map<Actor, Evaluation> evaluation) {
         if (sessions.contains(session) && session.getActor().equals(actor)) {
             session.setEvaluation(evaluation);
             System.out.println("Evaluation added for " + actor.getName());

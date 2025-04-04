@@ -23,7 +23,7 @@ public class Session {
     private List<String> otherActors;
     private Map<Actor, String> feedback;
     private List<String> observations;
-    private Evaluation evaluation;
+    private Map<Actor, Evaluation> evaluations;
     private boolean isGroupSession;
     private boolean canceled;
 
@@ -35,19 +35,19 @@ public class Session {
         this.otherActors = new ArrayList<>();
         this.feedback = new HashMap<>();
         this.observations = new ArrayList<>();
-        this.evaluation = new Evaluation();
+        this.evaluations = new HashMap<>();
         this.isGroupSession = false;
         this.canceled = false;
     }
 
-    public Session(LocalDateTime dateTime, Instructor instructor, Actor actor, List<String> otherActors, Map<Actor, String> feedback, List<String> observations, Evaluation evaluation) {
+    public Session(LocalDateTime dateTime, Instructor instructor, Actor actor) {
         this.dateTime = dateTime;
         this.instructor = instructor;
-        this.actor = actor;
-        this.otherActors = otherActors;
-        this.feedback = feedback;
-        this.observations = observations;
-        this.evaluation = evaluation;
+        this.actor = new Actor();
+        this.otherActors = new ArrayList<>();
+        this.feedback = new HashMap<>();
+        this.observations = new ArrayList<>();
+        this.evaluations = new HashMap<>();
         this.isGroupSession = !otherActors.isEmpty();
         this.canceled = false;
     }
@@ -83,8 +83,8 @@ public class Session {
         this.otherActors = otherActors;
     }
 
-    void setEvaluation(Evaluation evaluation) {
-        this.evaluation = evaluation;
+    void setEvaluation(Map<Actor, Evaluation> evaluations) {
+        this.evaluations = evaluations;
     }
 
     public String getFeedback(Actor actor) {
@@ -126,7 +126,7 @@ public class Session {
         System.out.println("Session updated successfully.");
     }
 
-    public void modifySessionByInstructor(LocalDateTime newDateTime, Map<Actor, String> newFeedback, String newObservations, Evaluation newEvaluation) {
+    public void modifySessionByInstructor(LocalDateTime newDateTime, Map<Actor, String> newFeedback, String newObservations, Map<Actor, Evaluation> newEvaluation) {
         if (!canceled && newDateTime.isAfter(LocalDateTime.now())) {
             this.dateTime = newDateTime;
         } else {
@@ -139,7 +139,7 @@ public class Session {
             this.observations.add(newObservations);
         }
         if (newEvaluation != null) {
-            this.evaluation = newEvaluation;
+            this.evaluations = newEvaluation;
         }
     }
 
@@ -185,5 +185,9 @@ public class Session {
         } else {
             System.out.println("Observations not valid.");
         }
+    }
+
+    public void addEvaluation(Actor actor, Evaluation evaluation) {
+        this.evaluations.put(actor, evaluation);
     }
 }
