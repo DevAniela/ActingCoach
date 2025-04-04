@@ -87,7 +87,7 @@ public class Actor extends User {
     public void addCharacterSheet(CharacterSheet sheet) {
         if (sheet != null) {
             characterSheets.add(sheet);
-            System.out.println("Character sheet added: " + sheet.getName());
+            System.out.println("Character sheet added for " + sheet.getCharacterName());
         } else {
             System.out.println("Not a valid character sheet.");
         }
@@ -99,15 +99,60 @@ public class Actor extends User {
         } else {
             System.out.println("Character sheets: ");
             for (int i = 0; i < characterSheets.size(); i++) {
-                System.out.println((i + 1) + ". " + characterSheets.get(i).getName());
+                System.out.println((i + 1) + ". " + characterSheets.get(i).getCharacterName());
             }
         }
     }
 
-    public void updateCharacterSheet(int index, String newDetails) {
+    public void updateCharacterName(int index, String newCharacterName) {
         if (index >= 0 && index < characterSheets.size()) {
-            characterSheets.get(index).setDetails(newDetails);
-            System.out.println("Character sheet updated.");
+            characterSheets.get(index).setCharacterName(newCharacterName);
+            System.out.println("Character name updated.");
+        } else {
+            System.out.println("Not a valid character sheet index.");
+        }
+    }
+
+    public void updateCharacterPersonality(int index, List newPersonalityTraits) {
+        if (index >= 0 && index < characterSheets.size()) {
+            characterSheets.get(index).setPersonalityTraits(newPersonalityTraits);
+            System.out.println("Character personality traits updated.");
+        } else {
+            System.out.println("Not a valid character sheet index.");
+        }
+    }
+
+    public void updateCharacterPhysical(int index, List newPhysicalTraits) {
+        if (index >= 0 && index < characterSheets.size()) {
+            characterSheets.get(index).setPhysicalTraits(newPhysicalTraits);
+            System.out.println("Character physical traits updated.");
+        } else {
+            System.out.println("Not a valid character sheet index.");
+        }
+    }
+
+    public void updateCharacterBackground(int index, String newBackground) {
+        if (index >= 0 && index < characterSheets.size()) {
+            characterSheets.get(index).setBackground(newBackground);
+            System.out.println("Character background updated.");
+        } else {
+            System.out.println("Not a valid character sheet index.");
+        }
+    }
+
+    public void updateCharacterMotivations(int index, String newMotivations) {
+        if (index >= 0 && index < characterSheets.size()) {
+            characterSheets.get(index).setMotivations(newMotivations);
+            System.out.println("Character motivations updated.");
+        } else {
+            System.out.println("Not a valid character sheet index.");
+        }
+    }
+
+    public void updateCharacterNotes(int index, String newNotes) {
+        if (index >= 0 && index < characterSheets.size()) {
+            characterSheets.get(index).setNotes(newNotes);
+            System.out.println("Character notes updated.");
         } else {
             System.out.println("Not a valid character sheet index.");
         }

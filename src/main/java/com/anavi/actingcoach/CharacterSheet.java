@@ -4,6 +4,9 @@
  */
 package com.anavi.actingcoach;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Ana Vi
@@ -11,15 +14,61 @@ package com.anavi.actingcoach;
 public class CharacterSheet {
 
     //ATTRIBUTES
+    private Actor actor;
+    private String characterName;
+    private List<String> personalityTraits;
+    private List<String> physicalTraits;
+    private String background;
+    private String motivations;
+    private String notes;
+
     //CONSTRUCTORS
+    public CharacterSheet() {
+        this.actor = null;
+        this.characterName = "";
+        this.personalityTraits = new ArrayList<>();
+        this.physicalTraits = new ArrayList<>();
+        this.background = "";
+        this.motivations = "";
+        this.notes = "";
+    }
+
+    public CharacterSheet(Actor actor, String characterName) {
+        this.actor = actor;
+        this.characterName = characterName;
+        this.personalityTraits = new ArrayList<>();
+        this.physicalTraits = new ArrayList<>();
+        this.background = "";
+        this.motivations = "";
+        this.notes = "";
+    }
+
     //GETTERS/SETTERS
-    String getName() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getCharacterName() {
+        return this.characterName;
     }
 
-    void setDetails(String newDetails) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setCharacterName(String newCharacterName) {
+        this.characterName = newCharacterName;
     }
 
-    //METHODS
+    public void setBackground(String newBackground) {
+        this.background = newBackground;
+    }
+
+    public void setPersonalityTraits(List<String> newPersonalityTraits) {
+        this.personalityTraits = newPersonalityTraits;
+    }
+
+    public void setPhysicalTraits(List<String> newPhysicalTraits) {
+        this.physicalTraits = newPhysicalTraits;
+    }
+
+    public void setMotivations(String newMotivations) {
+        this.motivations = newMotivations;
+    }
+
+    public void setNotes(String newNotes) {
+        this.notes = newNotes;
+    }
 }
