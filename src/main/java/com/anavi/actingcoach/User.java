@@ -11,19 +11,21 @@ package com.anavi.actingcoach;
 public abstract class User {
 
     //ATRIBUTE
-    private String name, email, password;
+    protected String name, email, password, role;
 
     //CONSTRUCTOR
     public User() {
         this.name = "";
         this.email = "";
         this.password = "";
+        this.role = "";
     }
 
-    public User(String name, String email, String password) {
+    public User(String name, String email, String password, String role) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     //GETTERI SI SETTERI
@@ -49,6 +51,14 @@ public abstract class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     //METODE ABSTRACTE

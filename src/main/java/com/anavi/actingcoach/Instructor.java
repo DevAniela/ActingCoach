@@ -24,8 +24,8 @@ public class Instructor extends User {
         this.sessions = new ArrayList<>();
     }
 
-    public Instructor(String name, String email, String password) {
-        super(name, email, password);
+    public Instructor(String name, String email, String password, String role) {
+        super(name, email, password, role);
         this.sessions = new ArrayList<>();
     }
 
@@ -94,6 +94,6 @@ public class Instructor extends User {
 
     @Override
     public void authenticate() {
-        System.out.println("Authenticating instructor: " + getName());
+        System.out.println("Authenticating instructor: " + getName() + " with email: " + getEmail());
     }
 }

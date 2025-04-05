@@ -32,8 +32,8 @@ public class Actor extends User {
         this.pointsEarned = 0;
     }
 
-    public Actor(String name, String email, String password) {
-        super(name, email, password);
+    public Actor(String name, String email, String password, String role) {
+        super(name, email, password, role);
         this.characterSheets = new ArrayList<>();
         this.sessions = new ArrayList<>();
         this.journalEntries = new ArrayList<>();
@@ -208,6 +208,6 @@ public class Actor extends User {
 
     @Override
     public void authenticate() {
-        System.out.println("Authenticating actor: " + getName());
+        System.out.println("Authenticating actor: " + getName() + " with email: " + getEmail());
     }
 }
