@@ -93,6 +93,17 @@ public class Actor extends User {
         }
     }
 
+    public void createAndAddCharacterSheet(String characterName, List<String> personalityTraits, List<String> physicalTraits, String background, String motivations, String notes) {
+        CharacterSheet sheet = new CharacterSheet(this, characterName);
+        sheet.setCharacterName(characterName);
+        sheet.setPersonalityTraits(personalityTraits);
+        sheet.setPhysicalTraits(physicalTraits);
+        sheet.setBackground(background);
+        sheet.setMotivations(motivations);
+        sheet.setNotes(notes);
+        characterSheets.add(sheet);
+    }
+
     public void viewCharacterSheets() {
         if (characterSheets.isEmpty()) {
             System.out.println("No character sheets available.");
@@ -101,6 +112,20 @@ public class Actor extends User {
             for (int i = 0; i < characterSheets.size(); i++) {
                 System.out.println((i + 1) + ". " + characterSheets.get(i).getCharacterName());
             }
+        }
+    }
+
+    public void updateCharacterSheet(int index, String newCharacterName, List<String> newPersonalityTraits, List<String> newPhysicalTraits, String newBackground, String newMotivations, String newNotes) {
+        if (index > 0 && index < characterSheets.size()) {
+            CharacterSheet sheet = characterSheets.get(index);
+            sheet.setCharacterName(newCharacterName);
+            sheet.setPersonalityTraits(newPersonalityTraits);
+            sheet.setPhysicalTraits(newPhysicalTraits);
+            sheet.setBackground(newBackground);
+            sheet.setMotivations(newMotivations);
+            sheet.setNotes(newNotes);
+        } else {
+            System.out.println("Not a valid character sheet index");
         }
     }
 
@@ -161,6 +186,15 @@ public class Actor extends User {
     public void deleteCharacterSheet(int index) {
         if (index >= 0 && index < characterSheets.size()) {
             characterSheets.remove(index);
+        } else {
+            System.out.println("Not a valid character sheet index.");
+        }
+    }
+
+    public void updateCharacterSheet(int index, CharacterSheet updatedSheet) {
+        if (index >= 0 && index < characterSheets.size()) {
+            characterSheets.set(index, updatedSheet);
+            System.out.println("Character sheet updated.");
         } else {
             System.out.println("Not a valid character sheet index.");
         }
