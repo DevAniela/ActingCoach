@@ -277,6 +277,45 @@ public class Actor extends User {
         }
     }
 
+    void viewJournal() {
+        if (journalEntries.isEmpty()) {
+            System.out.println("No journal entries yet.");
+            return;
+        }
+
+        System.out.println("\n=== Journal Entries ===");
+        for (int i = 0; i < journalEntries.size(); i++) {
+            System.out.println(i + 1 + ". " + journalEntries.get(i).getTitle() + " - " + journalEntries.get(i).getDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+        }
+    }
+
+    public void addJournalEntry(String title, String content) {
+        journalEntries.add(new JournalEntry(title, content));
+        System.out.println("Journal entry added.");
+    }
+
+    public void modifyJournalEntry(int index, String newTitle, String newContent) {
+        if (index < 0 || index >= journalEntries.size()) {
+            System.out.println("Not a valid index.");
+            return;
+        }
+
+        JournalEntry entry = journalEntries.get(index);
+        entry.setTitle(newTitle);
+        entry.setContent(newContent);
+        System.out.println("Journal entry updated.");
+    }
+
+    public void deleteJournalEntry(int index) {
+        if (index < 0 || index >= journalEntries.size()) {
+            System.out.println("Not a valid index.");
+            return;
+        }
+
+        journalEntries.remove(index);
+        System.out.println("Journal entry deleted.");
+    }
+
     @Override
     public void authenticate() {
         System.out.println("Authenticating actor: " + getName() + " with email: " + getEmail());

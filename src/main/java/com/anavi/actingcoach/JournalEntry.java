@@ -1,6 +1,7 @@
 package com.anavi.actingcoach;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class JournalEntry {
 
@@ -23,6 +24,14 @@ public class JournalEntry {
     }
 
     //GETTERS/SETTERS
+    public LocalDateTime getDateTime() {
+        return this.dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
     public String getTitle() {
         return this.title;
     }
@@ -42,6 +51,7 @@ public class JournalEntry {
     //METHODS
     @Override
     public String toString() {
-        return "[" + dateTime + "] " + title + ": \n" + content;
-    }    
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        return "[" + dateTime.format(formatter) + "] " + title + ": \n" + content;
+    }
 }

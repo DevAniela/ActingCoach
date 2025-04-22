@@ -212,6 +212,7 @@ public class ActorUI extends ActingCoachUI {
                     break;
                 case 0:
                     submenu = false;
+                    break;
                 default:
                     System.out.println("Not a valid option");
             }
@@ -228,11 +229,11 @@ public class ActorUI extends ActingCoachUI {
             return;
         }
 
-        System.out.println("Enter session date and time (dd:MM:yyyy HH:mm): ");
+        System.out.println("Enter session date and time (dd.MM.yyyy HH:mm): ");
         String dateTimeInput = scanner.nextLine();
         LocalDateTime dateTime;
         try {
-            dateTime = LocalDateTime.parse(dateTimeInput, DateTimeFormatter.ofPattern("dd:MM:yyyy HH:mm"));
+            dateTime = LocalDateTime.parse(dateTimeInput, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
         } catch (DateTimeParseException e) {
             System.out.println("Not a valid date format.");
             return;
@@ -254,22 +255,6 @@ public class ActorUI extends ActingCoachUI {
         actor.bookSession(instructor, dateTime, isGroupSession, otherActors);
     }
 
-    public void manageJournal() {
-        // TODO
-    }
-
-    public void manageImprovisation() {
-        // TODO
-    }
-
-    public void manageEvaluation() {
-        // TODO
-    }
-
-    public void manageInvoice() {
-        // TODO
-    }
-
     private void modifySession() {
         actor.viewSessions();
 
@@ -289,9 +274,9 @@ public class ActorUI extends ActingCoachUI {
 
         Session session = sessions.get(index - 1);
 
-        System.out.print("Enter new date and time (dd:MM:yyyy HH:mm): ");
+        System.out.print("Enter new date and time (dd.MM.yyyy HH:mm): ");
         String dateInput = scanner.nextLine();
-        LocalDateTime dateTime = LocalDateTime.parse(dateInput, DateTimeFormatter.ofPattern("dd:MM:yyyy HH:mm"));
+        LocalDateTime dateTime = LocalDateTime.parse(dateInput, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
 
         System.out.print("Enter new instructor's name: ");
         String instructorName = scanner.nextLine();
@@ -313,5 +298,88 @@ public class ActorUI extends ActingCoachUI {
             }
         }
         actor.modifySession(session, dateTime, instructor, isGroupSession, otherActors);
+    }
+
+    public void manageJournal() {
+        boolean submenu = true;
+
+        while (submenu) {
+            System.out.println("\n=== Journal Menu ===");
+            System.out.println("1. View Journal Entries");
+            System.out.println("2. Add Journal Entry");
+            System.out.println("3. Modify Journal Entry");
+            System.out.println("4. Delete Journal Entry");
+            System.out.println("0. Back to Main Menu");
+
+            System.out.print("Choose an option");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    actor.viewJournal();
+                    break;
+                case 2:
+                    addJournalEntry();
+                    break;
+                case 3:
+                    modifyJournalEntry();
+                    break;
+                case 4:
+                    deleteJournalEntry();
+                    break;
+                case 0:
+                    submenu = false;
+                    break;
+                default:
+                    System.out.println("Not a valid option");
+            }
+        }
+    }
+
+    public void addJournalEntry() {
+        System.out.println("Enter title: ");
+        String title = scanner.nextLine();
+
+        System.out.println("Enter content: ");
+        String content = scanner.nextLine();
+
+        actor.addJournalEntry(title, content);
+    }
+
+    public void modifyJournalEntry() {
+        actor.viewJournal();
+        System.out.println("Enter index of journal entry to modify: ");
+        int index = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.println("Enter new title: ");
+        String title = scanner.nextLine();
+
+        System.out.println("Enter new content: ");
+        String content = scanner.nextLine();
+
+        actor.modifyJournalEntry(index - 1, title, content);
+    }
+
+    public void deleteJournalEntry() {
+        actor.viewJournal();
+        System.out.println("Enter index of journal entry to delete: ");
+        int index = scanner.nextInt();
+        scanner.nextLine();
+
+        actor.deleteJournalEntry(index - 1);
+    }
+
+    public void manageImprovisation() {
+        // TODO
+    }
+
+    public void manageEvaluation() {
+        // TODO
+    }
+
+    public void manageInvoice() {
+        // TODO
     }
 }
