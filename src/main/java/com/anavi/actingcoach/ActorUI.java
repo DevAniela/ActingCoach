@@ -1,5 +1,8 @@
 package com.anavi.actingcoach;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -176,7 +179,79 @@ public class ActorUI extends ActingCoachUI {
     }
 
     public void manageSessions() {
-        // TODO
+
+        boolean submenu = true;
+
+        while (submenu) {
+            System.out.println("\n=== Sessions Menu ===");
+            System.out.println("1. View Sessions");
+            System.out.println("2. Book Session");
+            System.out.println("3. Modify Session");
+            System.out.println("4. Cancel Session");
+            System.out.println("0. Back to Main Menu");
+
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    actor.viewSessions();
+                    break;
+                case 2:
+                    promptBookSessionDetails();
+                    break;
+                case 3:
+                    modifySession();
+                    break;
+                case 4:
+                    System.out.println("Enter index of the session you want to cancel: ");
+                    int indexToCancel = scanner.nextInt();
+                    scanner.nextLine();
+                    actor.cancelSession(indexToCancel);
+                    break;
+                case 0:
+                    submenu = false;
+                default:
+                    System.out.println("Not a valid option");
+            }
+        }
+    }
+
+    public void promptBookSessionDetails() {
+
+        System.out.println("Enter instructor's name: ");
+        String instructorName = scanner.nextLine();
+        Instructor instructor = authSystem.findInstructorByName(instructorName);
+        if (instructor == null) {
+            System.out.println("Instructor not found.");
+            return;
+        }
+
+        System.out.println("Enter session date and time (dd:MM:yyyy HH:mm): ");
+        String dateTimeInput = scanner.nextLine();
+        LocalDateTime dateTime;
+        try {
+            dateTime = LocalDateTime.parse(dateTimeInput, DateTimeFormatter.ofPattern("dd:MM:yyyy HH:mm"));
+        } catch (DateTimeParseException e) {
+            System.out.println("Not a valid date format.");
+            return;
+        }
+
+        System.out.println("Is this a group session? (yes/no): ");
+        String groupInput = scanner.nextLine();
+        boolean isGroupSession = groupInput.equalsIgnoreCase("yes");
+
+        List<String> otherActors = new ArrayList<>();
+        if (isGroupSession) {
+            System.out.println("Enter other actors (comma separated): ");
+            String[] others = scanner.nextLine().split(",");
+            for (String name : others) {
+                otherActors.add(name.trim());
+            }
+        }
+
+        actor.bookSession(instructor, dateTime, isGroupSession, otherActors);
     }
 
     public void manageJournal() {
@@ -193,5 +268,50 @@ public class ActorUI extends ActingCoachUI {
 
     public void manageInvoice() {
         // TODO
+    }
+
+    private void modifySession() {
+        actor.viewSessions();
+
+        List<Session> sessions = actor.getSessions();
+        if (sessions.isEmpty()) {
+            return;
+        }
+
+        System.out.println("Enter the index of the session you want to update: ");
+        int index = scanner.nextInt();
+        scanner.nextLine();
+
+        if (index < 1 || index > sessions.size()) {
+            System.out.println("Not a valid index");
+            return;
+        }
+
+        Session session = sessions.get(index - 1);
+
+        System.out.print("Enter new date and time (dd:MM:yyyy HH:mm): ");
+        String dateInput = scanner.nextLine();
+        LocalDateTime dateTime = LocalDateTime.parse(dateInput, DateTimeFormatter.ofPattern("dd:MM:yyyy HH:mm"));
+
+        System.out.print("Enter new instructor's name: ");
+        String instructorName = scanner.nextLine();
+        Instructor instructor = authSystem.findInstructorByName(instructorName);
+        if (instructor == null) {
+            System.out.println("Instructor not found.");
+            return;
+        }
+
+        System.out.println("Is this a group session? (yes/no): ");
+        boolean isGroupSession = scanner.nextLine().equalsIgnoreCase("yes");
+
+        List<String> otherActors = new ArrayList<>();
+        if (isGroupSession) {
+            System.out.print("Enter names of other actors (comma separated): ");
+            String[] actorNames = scanner.nextLine().split(",");
+            for (String name : actorNames) {
+                otherActors.add(name.trim());
+            }
+        }
+        actor.modifySession(session, dateTime, instructor, isGroupSession, otherActors);
     }
 }

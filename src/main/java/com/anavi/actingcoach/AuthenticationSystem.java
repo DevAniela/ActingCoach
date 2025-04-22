@@ -83,4 +83,12 @@ public class AuthenticationSystem {
         return loggedInUser;
     }
 
+    public Instructor findInstructorByName(String instructorName) {
+        for (User user : users.values()) {
+            if (user instanceof Instructor && user.getName().equalsIgnoreCase(instructorName)) {
+                return (Instructor) user;
+            }
+        }
+        return null;
+    }
 }

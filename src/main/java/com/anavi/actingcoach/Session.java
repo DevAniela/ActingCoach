@@ -190,4 +190,12 @@ public class Session {
     public void addEvaluation(Actor actor, Evaluation evaluation) {
         this.evaluations.put(actor, evaluation);
     }
+
+    public Instructor getInstructor() {
+        return this.instructor;
+    }
+
+    void setInstructor(Instructor instructor) {
+        this.instructor = instructor;
+    }
 }
