@@ -19,6 +19,7 @@ public class Actor extends User {
     private List<CharacterSheet> characterSheets;
     private List<Session> sessions;
     private List<JournalEntry> journalEntries;
+    private List<Improvisation> improvisations;
     private List<Invoice> invoiceHistory;
     private int pointsEarned;
 
@@ -28,15 +29,17 @@ public class Actor extends User {
         this.characterSheets = new ArrayList<>();
         this.sessions = new ArrayList<>();
         this.journalEntries = new ArrayList<>();
+        this.improvisations = new ArrayList<>();
         this.invoiceHistory = new ArrayList<>();
         this.pointsEarned = 0;
     }
-
+    
     public Actor(String name, String email, String password, String role) {
         super(name, email, password, role);
         this.characterSheets = new ArrayList<>();
         this.sessions = new ArrayList<>();
         this.journalEntries = new ArrayList<>();
+        this.improvisations = new ArrayList<>();
         this.invoiceHistory = new ArrayList<>();
         this.pointsEarned = 0;
     }
@@ -45,39 +48,47 @@ public class Actor extends User {
     public List<CharacterSheet> getCharacterSheets() {
         return characterSheets;
     }
-
+    
     public void setCharacterSheets(List<CharacterSheet> characterSheets) {
         this.characterSheets = characterSheets;
     }
-
+    
     public List<Session> getSessions() {
         return sessions;
     }
-
+    
     public void setSessions(List<Session> sessions) {
         this.sessions = sessions;
     }
-
+    
     public List<JournalEntry> getJournalEntries() {
         return journalEntries;
     }
-
+    
     public void setJournalEntries(List<JournalEntry> journalEntries) {
         this.journalEntries = journalEntries;
     }
-
+    
+    public List<Improvisation> getImprovisations() {
+        return improvisations;
+    }
+    
+    public void setImprovisations(List<Improvisation> improvisations) {
+        this.improvisations = improvisations;
+    }
+    
     public List<Invoice> getInvoiceHistory() {
         return invoiceHistory;
     }
-
+    
     public void setInvoiceHistory(List<Invoice> invoiceHistory) {
         this.invoiceHistory = invoiceHistory;
     }
-
+    
     public int getPointsEarned() {
         return pointsEarned;
     }
-
+    
     public void setPointsEarned(int pointsEarned) {
         this.pointsEarned = pointsEarned;
     }
@@ -92,7 +103,7 @@ public class Actor extends User {
             System.out.println("Not a valid character sheet.");
         }
     }
-
+    
     public void createAndAddCharacterSheet(String characterName, List<String> personalityTraits, List<String> physicalTraits, String background, String motivations, String notes) {
         CharacterSheet sheet = new CharacterSheet(this, characterName);
         sheet.setCharacterName(characterName);
@@ -103,7 +114,7 @@ public class Actor extends User {
         sheet.setNotes(notes);
         characterSheets.add(sheet);
     }
-
+    
     public void viewCharacterSheets() {
         if (characterSheets.isEmpty()) {
             System.out.println("No character sheets available.");
@@ -114,7 +125,7 @@ public class Actor extends User {
             }
         }
     }
-
+    
     public void updateCharacterSheet(int index, String newCharacterName, List<String> newPersonalityTraits, List<String> newPhysicalTraits, String newBackground, String newMotivations, String newNotes) {
         if (index > 0 && index < characterSheets.size()) {
             CharacterSheet sheet = characterSheets.get(index);
@@ -128,7 +139,7 @@ public class Actor extends User {
             System.out.println("Not a valid character sheet index");
         }
     }
-
+    
     public void updateCharacterName(int index, String newCharacterName) {
         if (index >= 0 && index < characterSheets.size()) {
             characterSheets.get(index).setCharacterName(newCharacterName);
@@ -137,7 +148,7 @@ public class Actor extends User {
             System.out.println("Not a valid character sheet index.");
         }
     }
-
+    
     public void updateCharacterPersonality(int index, List newPersonalityTraits) {
         if (index >= 0 && index < characterSheets.size()) {
             characterSheets.get(index).setPersonalityTraits(newPersonalityTraits);
@@ -146,7 +157,7 @@ public class Actor extends User {
             System.out.println("Not a valid character sheet index.");
         }
     }
-
+    
     public void updateCharacterPhysical(int index, List newPhysicalTraits) {
         if (index >= 0 && index < characterSheets.size()) {
             characterSheets.get(index).setPhysicalTraits(newPhysicalTraits);
@@ -155,7 +166,7 @@ public class Actor extends User {
             System.out.println("Not a valid character sheet index.");
         }
     }
-
+    
     public void updateCharacterBackground(int index, String newBackground) {
         if (index >= 0 && index < characterSheets.size()) {
             characterSheets.get(index).setBackground(newBackground);
@@ -164,7 +175,7 @@ public class Actor extends User {
             System.out.println("Not a valid character sheet index.");
         }
     }
-
+    
     public void updateCharacterMotivations(int index, String newMotivations) {
         if (index >= 0 && index < characterSheets.size()) {
             characterSheets.get(index).setMotivations(newMotivations);
@@ -173,7 +184,7 @@ public class Actor extends User {
             System.out.println("Not a valid character sheet index.");
         }
     }
-
+    
     public void updateCharacterNotes(int index, String newNotes) {
         if (index >= 0 && index < characterSheets.size()) {
             characterSheets.get(index).setNotes(newNotes);
@@ -182,7 +193,7 @@ public class Actor extends User {
             System.out.println("Not a valid character sheet index.");
         }
     }
-
+    
     public void deleteCharacterSheet(int index) {
         if (index >= 0 && index < characterSheets.size()) {
             characterSheets.remove(index);
@@ -190,7 +201,7 @@ public class Actor extends User {
             System.out.println("Not a valid character sheet index.");
         }
     }
-
+    
     public void updateCharacterSheet(int index, CharacterSheet updatedSheet) {
         if (index >= 0 && index < characterSheets.size()) {
             characterSheets.set(index, updatedSheet);
@@ -206,14 +217,14 @@ public class Actor extends User {
             System.out.println("You have no sessions booked.");
             return;
         }
-
+        
         System.out.println("\n=== Your Sessions ===");
         for (int i = 0; i < sessions.size(); i++) {
             Session s = sessions.get(i);
             System.out.println((i + 1) + ". " + s.getDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + " with " + s.getInstructor().getName() + (s.isCanceled() ? " (Cancelled)" : ""));
         }
     }
-
+    
     public void bookSession(Instructor instructor, LocalDateTime dateTime, boolean isGroupSession, List<String> otherActors) {
         for (Session session : sessions) {
             if (!session.isCanceled()
@@ -234,7 +245,7 @@ public class Actor extends User {
         sessions.add(newSession);
         instructor.addSession(newSession);
     }
-
+    
     public void modifySession(Session session, LocalDateTime newDateTime) {
         if (sessions.contains(session)) {
             session.setDateTime(newDateTime);
@@ -243,7 +254,7 @@ public class Actor extends User {
             System.out.println("Couldn't find session.");
         }
     }
-
+    
     public void modifySession(Session session, LocalDateTime newDateTime, Instructor newInstructor, boolean isGroupSession, List<String> otherActors) {
         if (sessions.contains(session)) {
             session.setDateTime(newDateTime);
@@ -255,7 +266,7 @@ public class Actor extends User {
             System.out.println("Session not found.");
         }
     }
-
+    
     public void cancelSession(Session session) {
         if (sessions.contains(session)) {
             session.setCancelled(true);
@@ -264,58 +275,103 @@ public class Actor extends User {
             System.out.println("Couldn't find session.");
         }
     }
-
+    
     void cancelSession(int index) {
         if (index < 1 || index > sessions.size()) {
             System.out.println("Not a valid index.");
             return;
         }
-
+        
         Session session = sessions.get(index - 1);
         if (!session.isCanceled()) {
             session.cancelSession();
         }
     }
 
+    //for journal
     void viewJournal() {
         if (journalEntries.isEmpty()) {
             System.out.println("No journal entries yet.");
             return;
         }
-
+        
         System.out.println("\n=== Journal Entries ===");
         for (int i = 0; i < journalEntries.size(); i++) {
             System.out.println(i + 1 + ". " + journalEntries.get(i).getTitle() + " - " + journalEntries.get(i).getDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
         }
     }
-
+    
     public void addJournalEntry(String title, String content) {
         journalEntries.add(new JournalEntry(title, content));
         System.out.println("Journal entry added.");
     }
-
+    
     public void modifyJournalEntry(int index, String newTitle, String newContent) {
         if (index < 0 || index >= journalEntries.size()) {
             System.out.println("Not a valid index.");
             return;
         }
-
+        
         JournalEntry entry = journalEntries.get(index);
         entry.setTitle(newTitle);
         entry.setContent(newContent);
         System.out.println("Journal entry updated.");
     }
-
+    
     public void deleteJournalEntry(int index) {
         if (index < 0 || index >= journalEntries.size()) {
             System.out.println("Not a valid index.");
             return;
         }
-
+        
         journalEntries.remove(index);
         System.out.println("Journal entry deleted.");
     }
 
+    //for improvisation
+    public void startImprovisation() {
+        String promptStart = PromptGenerator.getRandomStartPrompt();
+        String promptEnd = PromptGenerator.getRandomEndPrompt();
+        
+        Improvisation improv = new Improvisation(promptStart, promptEnd);
+        
+        improvisations.add(improv);
+        System.out.println("\n=== Improvisation started ===");
+        System.out.println("Start with: \"" + promptStart + "\"");
+        System.out.println("End with: \"" + promptEnd + "\"");
+    }
+    
+    public void endImprovisation(int index) {
+        if (index < 0 || index >= improvisations.size()) {
+            System.out.println("Not a valid index.");
+            return;
+        }
+        
+        Improvisation improv = improvisations.get(index);
+        improv.setEndDateTime(LocalDateTime.now());
+        System.out.println("Improvisation completed.");
+    }
+    
+    public void endImprovisation() {
+        if (!improvisations.isEmpty()) {
+            improvisations.get(improvisations.size() - 1).setEndDateTime(LocalDateTime.now());
+            System.out.println("Improv completed.");
+        }
+    }
+    
+    public void viewImprovisations() {
+        if (improvisations.isEmpty()) {
+            System.out.println("No improv exercises found.");
+            return;
+        }
+        
+        System.out.println("\n=== Improvisation Exercises ===");
+        for (int i = 0; i < improvisations.size(); i++) {
+            Improvisation improv = improvisations.get(i);
+            System.out.println((i + 1) + ". Start: " + improv.getStartDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + " | Line 1: \"" + improv.getPromptStart() + "\"" + " | Line 2: \"" + improv.getPromptEnd() + "\"" + improv.getDurationFormatted());
+        }
+    }
+    
     @Override
     public void authenticate() {
         System.out.println("Authenticating actor: " + getName() + " with email: " + getEmail());

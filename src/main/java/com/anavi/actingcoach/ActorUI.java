@@ -372,7 +372,36 @@ public class ActorUI extends ActingCoachUI {
     }
 
     public void manageImprovisation() {
-        // TODO
+        boolean submenu = true;
+
+        while (submenu) {
+            System.out.println("\n=== Improv Menu ===");
+            System.out.println("1. Start Improvisation");
+            System.out.println("2. End Improvisation");
+            System.out.println("3. View all Improvisations");
+            System.out.println("0. Back to Main Menu");
+
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    actor.startImprovisation();
+                    break;
+                case 2:
+                    actor.endImprovisation();
+                    break;
+                case 3:
+                    actor.viewImprovisations();
+                    break;
+                case 0:
+                    submenu = false;
+                    break;
+                default:
+                    System.out.println("Not a valid option");
+            }
+        }
     }
 
     public void manageEvaluation() {
