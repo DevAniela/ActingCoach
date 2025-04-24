@@ -5,9 +5,9 @@
 package com.anavi.actingcoach;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -51,32 +51,36 @@ public class Instructor extends User {
     }
 
     //METHODS
-    void addSession(Session newSession) {
+    public void addSession(Session newSession) {
         sessions.add(newSession);
     }
 
-    public void evaluateActor(Actor actor, Session session, Map<Actor, Evaluation> evaluation) {
+    public void evaluateActor(Actor actor, Session session, Evaluation evaluation) {
         if (sessions.contains(session) && session.getActor().equals(actor)) {
-            session.setEvaluation(evaluation);
+            session.addEvaluation(actor, evaluation);
             System.out.println("Evaluation added for " + actor.getName());
         } else {
             System.out.println("Couldn't find session or actor.");
         }
     }
 
-    public void addFeedback(Session session, Actor actor, String feedback) {
-        if (sessions.contains(session) && session.getActor().equals(actor)) {
-            session.addFeedback(actor, feedback);
-            System.out.println("Evaluation added for " + actor.getName());
-        } else {
-            System.out.println("Couldn't find session or actor.");
-        }
-    }
-
-    public void addObservations(Session session, String observations) {
+    public void addGeneralFeedback(Session session, String generalFeedback) {
         if (sessions.contains(session)) {
-            session.addObservations(observations);
-            System.out.println("Observations added to session " + session.getDateTime());
+            session.setGeneralFeedback(generalFeedback);
+
+            StringBuilder feedbackMessage = new StringBuilder();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+            feedbackMessage.append("Feedback added for the session on: ").append(session.getDateTime().format(formatter)).append(" with ").append(session.getActor().getName());
+
+            if (session.isGroupSession()) {
+                List<String> others = session.getOtherActors();
+                if (others != null && !others.isEmpty()) {
+                    feedbackMessage.append(", and: ");
+                    feedbackMessage.append(String.join(", ", others));
+                    feedbackMessage.append(".");
+                }
+            }
+            System.out.println(feedbackMessage);
         } else {
             System.out.println("Couldn't find session.");
         }

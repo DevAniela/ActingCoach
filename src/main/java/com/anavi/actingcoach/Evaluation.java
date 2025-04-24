@@ -14,26 +14,26 @@ import java.util.Map;
 public class Evaluation {
 
     //ATTRIBUTES
+    Session session;
     private int expressiveness;
     private int diction;
     private int emotion;
-    private String notes;
     private Map<Actor, String> observations;
 
     //CONSTRUCTORS
     public Evaluation() {
+        this.session = new Session();
         this.expressiveness = 0;
         this.diction = 0;
         this.emotion = 0;
-        this.notes = "";
         this.observations = new HashMap<>();
     }
 
     public Evaluation(int expressiveness, int diction, int emotion) {
+        this.session = new Session();
         this.expressiveness = expressiveness;
         this.diction = diction;
         this.emotion = emotion;
-        this.notes = "";
         this.observations = new HashMap<>();
     }
 
@@ -56,12 +56,12 @@ public class Evaluation {
         return this.emotion;
     }
 
-    public String getNotes() {
-        return this.notes;
+    public void setSession(Session session) {
+        this.session = session;
     }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
+    public Session getSession() {
+        return this.session;
     }
 
     public String getObservations(Actor actor) {

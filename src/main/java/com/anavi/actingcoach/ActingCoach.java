@@ -3,6 +3,11 @@
  */
 package com.anavi.actingcoach;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Main class for testing ActingCoach
  *
@@ -40,5 +45,32 @@ public class ActingCoach {
         System.out.println("Is logged in: " + authSys.isLoggedIn());
         authSys.login("neil@gaiman.com", "passman123");
         System.out.println("Is logged in: " + authSys.isLoggedIn());
+        //Create a group session
+        Actor actor1 = new Actor("Benedict Cumberbatch", "cucumber@email.com", "1J2k3", "actor");
+        Actor actor2 = new Actor("Martin Freeman", "freedom@email.com", "1&2*3", "actor");
+        Actor actor3 = new Actor("Jane Lynch", "sue@email.com", "sylvester", "actor");
+        Instructor instructor1 = new Instructor("Lee", "strasberg@gmail.com", "method1", "instructor");
+        Instructor instructor2 = new Instructor("Angela Lansbury", "shewrote@gmail.com", "method2", "instructor");
+
+        LocalDateTime sessionTime = LocalDateTime.now().plusDays(2);
+
+        Session groupSession = new Session(sessionTime, instructor1, actor3);
+        groupSession.setGroupSession(true);
+
+        List<String> otherActors = new ArrayList<>();
+        otherActors.add(actor1.getName());
+        otherActors.add(actor2.getName());
+
+        groupSession.setOtherActors(otherActors);
+
+        instructor1.addSession(groupSession);
+        actor3.bookSession(instructor1, sessionTime, true, otherActors);
+        actor1.bookSession(instructor2, sessionTime, true, Arrays.asList(actor3.getName()));
+
+        instructor1.addGeneralFeedback(groupSession, "Strong group synergy. Practice timing.");
+        
+        Actor currentActor = (Actor) authSys.getLoggedInUser();
+        ActorUI actorUI = new ActorUI(authSys, currentActor);
+        actorUI.handleInput();
     }
 }
