@@ -29,7 +29,7 @@ public class InstructorUI extends ActingCoachUI {
         int sessionIndex = scanner.nextInt();
         scanner.nextLine();
         if (sessionIndex > 0 && sessionIndex <= instructor.getSessions().size()) {
-            instructor.getSessionDetails(instructor.getSessions().get(sessionIndex - 1));
+            System.out.println(instructor.getSessionDetails(instructor.getSessions().get(sessionIndex - 1)));
         } else {
             System.out.println("Not a valid index.");
         }
@@ -40,7 +40,7 @@ public class InstructorUI extends ActingCoachUI {
         int i = scanner.nextInt();
         Session session = instructor.getSessions().get(i - 1);
         System.out.print("Enter general feedback for session " + i + ": ");
-        String generalFeedback = scanner.next();
+        String generalFeedback = scanner.nextLine();
         instructor.addGeneralFeedback(session, generalFeedback);
     }
 
@@ -96,7 +96,10 @@ public class InstructorUI extends ActingCoachUI {
                     manageActorEvaluation();
                     break;
                 case 5:
-                    System.out.println("TO DO: Cancel Session");
+                    System.out.println("Enter index of the session you want to cancel: ");
+                    int index = scanner.nextInt();
+                    scanner.nextLine();
+                    instructor.cancelSession(index);
                     break;
                 case 0:
                     running = false;
@@ -104,8 +107,6 @@ public class InstructorUI extends ActingCoachUI {
                 default:
                     System.out.println("Not a valid option.");
             }
-
         }
-
     }
 }

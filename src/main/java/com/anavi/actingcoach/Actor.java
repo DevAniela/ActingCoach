@@ -276,7 +276,7 @@ public class Actor extends User {
         }
     }
 
-    void cancelSession(int index) {
+    public void cancelSession(int index) {
         if (index < 1 || index > sessions.size()) {
             System.out.println("Not a valid index.");
             return;
@@ -289,7 +289,7 @@ public class Actor extends User {
     }
 
     //for journal
-    void viewJournal() {
+    public void viewJournal() {
         if (journalEntries.isEmpty()) {
             System.out.println("No journal entries yet.");
             return;

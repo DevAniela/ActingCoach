@@ -87,7 +87,11 @@ public class Instructor extends User {
     }
 
     public void addSession(Session newSession) {
-        sessions.add(newSession);
+        if (newSession != null) {
+            sessions.add(newSession);
+        } else {
+            System.out.println("Cannot add a null session.");
+        }
     }
 
     public void evaluateActor(Session session, Evaluation evaluation) {
@@ -118,6 +122,21 @@ public class Instructor extends User {
             System.out.println(feedbackMessage);
         } else {
             System.out.println("Couldn't find session.");
+        }
+    }
+
+    public void cancelSession(int index) {
+        if (index < 1 || index > sessions.size()) {
+            System.out.println("Not a valid session index.");
+            return;
+        }
+
+        Session session = sessions.get(index - 1);
+        if (!session.isCanceled()) {
+            session.cancelSession();
+            System.out.println("Session " + index + " cancelled.");
+        } else {
+            System.out.println("Session " + index + " is already cancelled.");
         }
     }
 
