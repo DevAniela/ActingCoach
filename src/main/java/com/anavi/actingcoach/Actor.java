@@ -127,7 +127,7 @@ public class Actor extends User {
     }
 
     public void updateCharacterSheet(int index, String newCharacterName, List<String> newPersonalityTraits, List<String> newPhysicalTraits, String newBackground, String newMotivations, String newNotes) {
-        if (index > 0 && index < characterSheets.size()) {
+        if (index >= 0 && index < characterSheets.size()) {
             CharacterSheet sheet = characterSheets.get(index);
             sheet.setCharacterName(newCharacterName);
             sheet.setPersonalityTraits(newPersonalityTraits);
@@ -149,7 +149,7 @@ public class Actor extends User {
         }
     }
 
-    public void updateCharacterPersonality(int index, List newPersonalityTraits) {
+    public void updateCharacterPersonality(int index, List<String> newPersonalityTraits) {
         if (index >= 0 && index < characterSheets.size()) {
             characterSheets.get(index).setPersonalityTraits(newPersonalityTraits);
             System.out.println("Character personality traits updated.");
@@ -158,7 +158,7 @@ public class Actor extends User {
         }
     }
 
-    public void updateCharacterPhysical(int index, List newPhysicalTraits) {
+    public void updateCharacterPhysical(int index, List<String> newPhysicalTraits) {
         if (index >= 0 && index < characterSheets.size()) {
             characterSheets.get(index).setPhysicalTraits(newPhysicalTraits);
             System.out.println("Character physical traits updated.");
@@ -234,7 +234,7 @@ public class Actor extends User {
                 return;
             }
         }
-        Session newSession = new Session(this, instructor, dateTime);
+        Session newSession = new Session(dateTime, instructor, this);
         newSession.setGroupSession(isGroupSession);
         if (isGroupSession && otherActors != null && !otherActors.isEmpty()) {
             newSession.setOtherActors(otherActors);
@@ -269,8 +269,8 @@ public class Actor extends User {
 
     public void cancelSession(Session session) {
         if (sessions.contains(session)) {
-            session.setCancelled(true);
-            System.out.println("Session cancelled.");
+            session.setCanceled(true);
+            System.out.println("Session canceled.");
         } else {
             System.out.println("Couldn't find session.");
         }
