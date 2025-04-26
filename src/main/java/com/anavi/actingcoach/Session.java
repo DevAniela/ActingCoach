@@ -23,6 +23,8 @@ public class Session {
     private Evaluation evaluation;
     private boolean isGroupSession;
     private boolean canceled;
+    private double fee;
+    private static final double RATE_PER_HOUR = 70.0;
 
     //CONSTRUCTORS
     public Session() {
@@ -34,6 +36,7 @@ public class Session {
         this.evaluation = new Evaluation();
         this.isGroupSession = false;
         this.canceled = false;
+        this.fee = RATE_PER_HOUR * 1.5;
     }
 
     public Session(LocalDateTime dateTime, Instructor instructor, Actor actor) {
@@ -45,12 +48,7 @@ public class Session {
         this.evaluation = new Evaluation();
         this.isGroupSession = false;
         this.canceled = false;
-    }
-
-    public Session(Actor actor, Instructor instructor, LocalDateTime dateTime) {
-        this.actor = actor;
-        this.instructor = instructor;
-        this.dateTime = dateTime;
+        this.fee = RATE_PER_HOUR * 1.5;
     }
 
     //GETTERS/SETTERS
@@ -98,6 +96,14 @@ public class Session {
         this.evaluation = evaluation;
     }
 
+    public boolean isGroupSession() {
+        return otherActors != null && !otherActors.isEmpty();
+    }
+
+    public void setGroupSession(boolean isGroupSession) {
+        this.isGroupSession = isGroupSession;
+    }
+
     public String getGeneralFeedback() {
         return this.generalFeedback;
     }
@@ -106,12 +112,16 @@ public class Session {
         this.generalFeedback = generalFeedback;
     }
 
-    public void setGroupSession(boolean b) {
-        this.isGroupSession = b;
+    public void setCanceled(boolean canceled) {
+        this.canceled = canceled;
     }
 
-    public void setCancelled(boolean b) {
-        this.canceled = b;
+    public boolean isCanceled() {
+        return canceled;
+    }
+
+    public double getFee() {
+        return this.fee;
     }
 
     //METHODS
@@ -145,10 +155,6 @@ public class Session {
         }
     }
 
-    public boolean isGroupSession() {
-        return otherActors != null && !otherActors.isEmpty();
-    }
-
     public void cancelSession() {
         if (!canceled) {
             this.canceled = true;
@@ -158,7 +164,20 @@ public class Session {
         }
     }
 
-    public boolean isCanceled() {
-        return canceled;
+    public void addOtherActors(String names) {
+        if (this.otherActors == null) {
+            this.otherActors = new ArrayList<>();
+        }
+        this.otherActors.add(names);
     }
+
+    public void calculateFee() {
+        double baseFee = RATE_PER_HOUR * 1.5;
+        this.fee = baseFee;
+
+        if (isGroupSession) {
+            this.fee /= (otherActors.size() + 1); // includes the actor who made the booking
+        }
+    }
+
 }
