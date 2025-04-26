@@ -4,9 +4,6 @@
  */
 package com.anavi.actingcoach;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  *
  * @author Ana Vi
@@ -14,11 +11,11 @@ import java.util.Map;
 public class Evaluation {
 
     //ATTRIBUTES
-    Session session;
+    private Session session;
     private int expressiveness;
     private int diction;
     private int emotion;
-    private Map<Actor, String> observations;
+    private String notes;
 
     //CONSTRUCTORS
     public Evaluation() {
@@ -26,15 +23,15 @@ public class Evaluation {
         this.expressiveness = 0;
         this.diction = 0;
         this.emotion = 0;
-        this.observations = new HashMap<>();
+        this.notes = "";
     }
 
-    public Evaluation(int expressiveness, int diction, int emotion) {
+    public Evaluation(Session session, int expressiveness, int diction, int emotion, String notes) {
         this.session = new Session();
         this.expressiveness = expressiveness;
         this.diction = diction;
         this.emotion = emotion;
-        this.observations = new HashMap<>();
+        this.notes = notes;
     }
 
     //GETTERS/SETTERS
@@ -64,20 +61,15 @@ public class Evaluation {
         return this.session;
     }
 
-    public String getObservations(Actor actor) {
-        return observations.getOrDefault(actor, "No observation found.");
+    public String getNotes() {
+        return this.notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     //METHODS
-    public void addObservation(Actor actor, String observation) {
-        if (actor != null && observation != null && !observation.isBlank()) {
-            this.observations.put(actor, observation);
-            System.out.println("Observations added for " + actor.getName());
-        } else {
-            System.out.println("Observation not valid.");
-        }
-    }
-
     public double calculateFinalScore() {
         return (this.expressiveness + this.diction + this.emotion) / 3.0;
     }

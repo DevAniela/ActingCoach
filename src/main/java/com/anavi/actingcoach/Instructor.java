@@ -30,35 +30,70 @@ public class Instructor extends User {
     }
 
     //GETTERS/SETTERS
+    public List<Session> getSessions() {
+        return this.sessions;
+    }
+
     public String getSessionDetails(Session session) {
         if (sessions.contains(session)) {
-            if (session.isCanceled()) {
-                return "Session with " + session.getActor().getName() + " on " + session.getDateTime() + " is canceled.";
+
+            StringBuilder sessionInfo = new StringBuilder();
+
+            sessionInfo.append("Session on ").append(session.getDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))).append(", booked by ").append(session.getActor().getName());
+
+            if (session.isGroupSession()) {
+
+                List<String> otherActors = session.getOtherActors();
+
+                if (otherActors != null && !otherActors.isEmpty()) {
+                    sessionInfo.append(", with ").append(String.join(", ", otherActors));
+                }
             }
-            return "Session with " + session.getActor().getName() + " is on " + session.getDateTime();
+
+            if (session.isCanceled()) {
+                sessionInfo.append(" (CANCELLED)");
+            }
+            return sessionInfo.toString();
         } else {
             return "Couldn't find session.";
         }
     }
 
-    public void getScheduledSessions() {
-        System.out.println("Scheduled sessions:");
-        for (Session session : sessions) {
-            if (session.getDateTime().isAfter(LocalDateTime.now())) {
-                System.out.println(session.getDateTime() + " with " + session.getActor().getName());
+    //METHODS
+    public void viewScheduledSessions() {
+        if (sessions.isEmpty()) {
+            System.out.println("You have no scheduled sessions.");
+            return;
+        }
+
+        System.out.println("\n=== Your Scheduled Sessions ===");
+        for (int i = 0; i < sessions.size(); i++) {
+
+            Session s = sessions.get(i);
+
+            if (s.getDateTime().isAfter(LocalDateTime.now()) && !s.isCanceled()) {
+
+                StringBuilder sessionInfo = new StringBuilder();
+
+                sessionInfo.append((i + 1)).append(". ").append(s.getDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))).append(", with ").append(s.getActor().getName()).append(".");
+
+                if (s.isGroupSession() && s.getOtherActors() != null && !s.getOtherActors().isEmpty()) {
+                    sessionInfo.append(", and ").append(String.join(", ", s.getOtherActors()));
+                }
+                sessionInfo.append(".");
+                System.out.println(sessionInfo);
             }
         }
     }
 
-    //METHODS
     public void addSession(Session newSession) {
         sessions.add(newSession);
     }
 
-    public void evaluateActor(Actor actor, Session session, Evaluation evaluation) {
-        if (sessions.contains(session) && session.getActor().equals(actor)) {
-            session.addEvaluation(actor, evaluation);
-            System.out.println("Evaluation added for " + actor.getName());
+    public void evaluateActor(Session session, Evaluation evaluation) {
+        if (sessions.contains(session)) {
+            session.setEvaluation(evaluation);
+            System.out.println("Evaluation added for " + session.getActor().getName());
         } else {
             System.out.println("Couldn't find session or actor.");
         }

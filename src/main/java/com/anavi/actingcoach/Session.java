@@ -6,9 +6,7 @@ package com.anavi.actingcoach;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -22,7 +20,7 @@ public class Session {
     private Actor actor;
     private List<String> otherActors;
     private String generalFeedback;
-    private Map<Actor, Evaluation> evaluations;
+    private Evaluation evaluation;
     private boolean isGroupSession;
     private boolean canceled;
 
@@ -33,7 +31,7 @@ public class Session {
         this.actor = new Actor();
         this.otherActors = new ArrayList<>();
         this.generalFeedback = "";
-        this.evaluations = new HashMap<>();
+        this.evaluation = new Evaluation();
         this.isGroupSession = false;
         this.canceled = false;
     }
@@ -44,8 +42,8 @@ public class Session {
         this.actor = actor;
         this.otherActors = new ArrayList<>();
         this.generalFeedback = "";
-        this.evaluations = new HashMap<>();
-        this.isGroupSession = !otherActors.isEmpty();
+        this.evaluation = new Evaluation();
+        this.isGroupSession = false;
         this.canceled = false;
     }
 
@@ -92,12 +90,12 @@ public class Session {
         this.otherActors = otherActors;
     }
 
-    public Evaluation getEvaluation(Actor actor) {
-        return this.evaluations.get(actor);
+    public Evaluation getEvaluation() {
+        return this.evaluation;
     }
 
-    public void setEvaluation(Map<Actor, Evaluation> evaluations) {
-        this.evaluations = evaluations;
+    public void setEvaluation(Evaluation evaluation) {
+        this.evaluation = evaluation;
     }
 
     public String getGeneralFeedback() {
@@ -132,7 +130,7 @@ public class Session {
         System.out.println("Session updated successfully.");
     }
 
-    public void modifySessionByInstructor(LocalDateTime newDateTime, String newGeneralFeedback, Map<Actor, Evaluation> newEvaluation) {
+    public void modifySessionByInstructor(LocalDateTime newDateTime, String newGeneralFeedback, Evaluation newEvaluation) {
         if (!canceled && newDateTime.isAfter(LocalDateTime.now())) {
             this.dateTime = newDateTime;
         } else {
@@ -143,7 +141,7 @@ public class Session {
         }
 
         if (newEvaluation != null) {
-            this.evaluations = newEvaluation;
+            this.evaluation = newEvaluation;
         }
     }
 
@@ -162,9 +160,5 @@ public class Session {
 
     public boolean isCanceled() {
         return canceled;
-    }
-
-    public void addEvaluation(Actor actor, Evaluation evaluation) {
-        this.evaluations.put(actor, evaluation);
     }
 }

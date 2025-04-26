@@ -38,6 +38,7 @@ public class ActorUI extends ActingCoachUI {
         while (running) {
             displayMenu();
             int choice = scanner.nextInt();
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
