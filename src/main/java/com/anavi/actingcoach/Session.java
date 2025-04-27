@@ -5,6 +5,7 @@
 package com.anavi.actingcoach;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,6 +126,21 @@ public class Session {
     }
 
     //METHODS
+    public void viewEvaluation() {
+        if (evaluation != null) {
+            System.out.println("Evaluation for session on " + dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + ": ");
+            System.out.println("Expressiveness: " + evaluation.getExpressiveness());
+            System.out.println("Diction: " + evaluation.getDiction());
+            System.out.println("Emotion: " + evaluation.getEmotion());
+            System.out.println("______________________________");
+            System.out.println("Overall Score: " + evaluation.calculateFinalScore());
+            System.out.println("______________________________");
+            System.out.println("Additional notes: " + evaluation.getNotes());
+        } else {
+            System.out.println("Evaluation does not exist yet.");
+        }
+    }
+
     public void modifySessionByActor(Instructor newInstructor, List<String> newOtherActors, LocalDateTime newDateTime) {
         if (!canceled && newDateTime.isAfter(LocalDateTime.now())) {
             this.dateTime = newDateTime;
