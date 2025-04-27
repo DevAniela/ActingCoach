@@ -436,7 +436,7 @@ public class ActorUI extends ActingCoachUI {
                     System.out.println("\n=== All Evaluations ===");
                     List<Session> allSessions = actor.getSessions();
                     boolean found = false;
-                    
+
                     for (int i = 0; i < allSessions.size(); i++) {
                         Session session = allSessions.get(i);
                         if (session.getEvaluation() != null) {
@@ -445,7 +445,7 @@ public class ActorUI extends ActingCoachUI {
                             found = true;
                         }
                     }
-                    if(!found) {
+                    if (!found) {
                         System.out.println("No evaluations available yet.");
                     }
                     break;
@@ -459,6 +459,64 @@ public class ActorUI extends ActingCoachUI {
     }
 
     public void manageInvoice() {
-        // TODO
+
+        boolean submenu = true;
+
+        while (submenu) {
+            System.out.println("\n=== Invoice Menu ===");
+            System.out.println("1. View Invoice by Session");
+            System.out.println("2. View All Invoices");
+            System.out.println("0. Back to Main Menu");
+
+            System.out.println("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter the index of the session for which you want to see the invoice: ");
+                    int index = scanner.nextInt();
+                    scanner.nextLine();
+
+                    List<Session> sessions = actor.getSessions();
+                    if (index < 1 || index > sessions.size()) {
+                        System.out.println("Not a valid session index.");
+                    } else {
+                        Session session = sessions.get(index - 1);
+                        if (session.getFee() > 0) {
+                            System.out.println("Invoice for session on " + session.getDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + ": ");
+                            System.out.println("Fee: €" + session.getFee());
+                        } else {
+                            System.out.println("No invoice available for this session.");
+                        }
+                    }
+                    break;
+
+                case 2:
+                    System.out.println("\n=== All Invoices ===");
+                    List<Session> allSessions = actor.getSessions();
+                    boolean foundInvoice = false;
+
+                    for (Session session : allSessions) {
+                        if (session.getFee() > 0) {
+                            System.out.println("Session on " + session.getDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + ": ");
+                            System.out.println("Fee: €" + session.getFee());
+                            foundInvoice = true;
+                        }
+                    }
+
+                    if (!foundInvoice) {
+                        System.out.println("No invoices available yet.");
+                    }
+                    break;
+
+                case 0:
+                    submenu = false;
+                    break;
+
+                default:
+                    System.out.println("Not a valid option.");
+            }
+        }
     }
 }
