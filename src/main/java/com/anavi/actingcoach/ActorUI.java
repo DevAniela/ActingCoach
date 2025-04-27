@@ -406,7 +406,56 @@ public class ActorUI extends ActingCoachUI {
     }
 
     public void manageEvaluation() {
-        // TODO
+
+        boolean submenu = true;
+
+        while (submenu) {
+            System.out.println("\n=== Evaluations Menu ===");
+            System.out.println("1. View Evaluation by Session");
+            System.out.println("2. View All Evaluations");
+            System.out.println("0. Back to Main Menu");
+
+            System.out.println("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter the index of the session for which you want to see the evaluation: ");
+                    int index = scanner.nextInt();
+                    scanner.nextLine();
+
+                    List<Session> sessions = actor.getSessions();
+                    if (index < 1 || index > sessions.size()) {
+                        System.out.println("Not a valid session index.");
+                    } else {
+                        sessions.get(index - 1).viewEvaluation();
+                    }
+                    break;
+                case 2:
+                    System.out.println("\n=== All Evaluations ===");
+                    List<Session> allSessions = actor.getSessions();
+                    boolean found = false;
+                    
+                    for (int i = 0; i < allSessions.size(); i++) {
+                        Session session = allSessions.get(i);
+                        if (session.getEvaluation() != null) {
+                            System.out.println("\nSession " + (i + 1) + ":");
+                            session.viewEvaluation();
+                            found = true;
+                        }
+                    }
+                    if(!found) {
+                        System.out.println("No evaluations available yet.");
+                    }
+                    break;
+                case 0:
+                    submenu = false;
+                    break;
+                default:
+                    System.out.println("Not a valid option");
+            }
+        }
     }
 
     public void manageInvoice() {
