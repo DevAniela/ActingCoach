@@ -49,27 +49,41 @@ public class InstructorUI extends ActingCoachUI {
         int index = scanner.nextInt();
         scanner.nextLine();
 
+        if (index < 1 || index > instructor.getSessions().size()) {
+            System.out.println("Not a valid session index.");
+            return;
+        }
+
         Session session = instructor.getSessions().get(index - 1);
 
         if (session.isCanceled()) {
-            System.out.println("This session is cancelled.");
+            System.out.println("This session is canceled.");
             return;
         }
 
         System.out.println("\n=== Evaluating " + session.getActor().getName() + " ===");
-        System.out.println("Enter rating for expressiveness (1-10): ");
-        int expressiveness = scanner.nextInt();
-        System.out.print("Enter rating for diction (1-10): ");
-        int diction = scanner.nextInt();
-        System.out.print("Enter rating for emotion (1-10): ");
-        int emotion = scanner.nextInt();
-        scanner.nextLine();
+        
+        int expressiveness = getValidRating("expressiveness");
+        int diction = getValidRating("diction");
+        int emotion = getValidRating("emotion");
         System.out.print("Enter any observations or advice you might have for this actor: ");
         String notes = scanner.nextLine();
 
         Evaluation evaluation = new Evaluation(session, expressiveness, diction, emotion, notes);
 
         instructor.evaluateActor(session, evaluation);
+    }
+
+    public int getValidRating(String type) {
+        int rating = -1;
+        while (rating < 1 || rating > 10) {
+            System.out.print("Enter rating for " + type + " (1-10): ");
+            rating = scanner.nextInt();
+            if (rating < 1 || rating > 10) {
+                System.out.println("Please enter a valid rating between 1 and 10.");
+            }
+        }
+        return rating;
     }
 
     @Override
