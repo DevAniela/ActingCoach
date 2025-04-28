@@ -56,6 +56,9 @@ public class ActingCoach {
 
         Session groupSession = new Session(sessionTime, instructor1, actor3);
         groupSession.setGroupSession(true);
+        //Update session
+        sessionTime = LocalDateTime.now();
+        groupSession.modifySessionByActor(sessionTime);
 
         List<String> otherActors = new ArrayList<>();
         otherActors.add(actor1.getName());
@@ -65,12 +68,20 @@ public class ActingCoach {
 
         instructor1.addSession(groupSession);
         actor3.bookSession(instructor1, sessionTime, true, otherActors);
-        actor1.bookSession(instructor2, sessionTime, true, Arrays.asList(actor3.getName()));
+        actor1.bookSession(instructor2, sessionTime, true, Arrays.asList(actor.getName()));
 
+        actor2.bookSession(instructor, sessionTime, true, null);
+
+        //Cancel session
+        Session cancelSesh = actor3.getSessions().get(0);
+        cancelSesh.cancelSession();
+        actor3.viewSessions();
+        //Add feedback
         instructor1.addGeneralFeedback(groupSession, "Strong group synergy. Practice timing.");
-        
+        //Show main menu
         Actor currentActor = (Actor) authSys.getLoggedInUser();
         ActorUI actorUI = new ActorUI(authSys, currentActor);
         actorUI.handleInput();
+
     }
 }

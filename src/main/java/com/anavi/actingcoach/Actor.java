@@ -221,7 +221,7 @@ public class Actor extends User {
         System.out.println("\n=== Your Sessions ===");
         for (int i = 0; i < sessions.size(); i++) {
             Session s = sessions.get(i);
-            System.out.println((i + 1) + ". " + s.getDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + " with " + s.getInstructor().getName() + (s.isCanceled() ? " (Cancelled)" : ""));
+            System.out.println((i + 1) + ". " + s.getDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + " with " + s.getInstructor().getName() + (s.isCanceled() ? " [Canceled]" : ""));
         }
     }
 
@@ -244,27 +244,6 @@ public class Actor extends User {
         }
         sessions.add(newSession);
         instructor.addSession(newSession);
-    }
-
-    public void modifySession(Session session, LocalDateTime newDateTime) {
-        if (sessions.contains(session)) {
-            session.setDateTime(newDateTime);
-            System.out.println("Session updated to " + newDateTime);
-        } else {
-            System.out.println("Couldn't find session.");
-        }
-    }
-
-    public void modifySession(Session session, LocalDateTime newDateTime, Instructor newInstructor, boolean isGroupSession, List<String> otherActors) {
-        if (sessions.contains(session)) {
-            session.setDateTime(newDateTime);
-            session.setInstructor(newInstructor);
-            session.setGroupSession(isGroupSession);
-            session.setOtherActors(otherActors);
-            System.out.println("Session updated successfully.");
-        } else {
-            System.out.println("Session not found.");
-        }
     }
 
     public void cancelSession(Session session) {

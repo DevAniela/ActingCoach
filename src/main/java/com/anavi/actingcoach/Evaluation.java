@@ -19,7 +19,6 @@ public class Evaluation {
 
     //CONSTRUCTORS
     public Evaluation() {
-        this.session = new Session();
         this.expressiveness = 0;
         this.diction = 0;
         this.emotion = 0;
@@ -27,7 +26,7 @@ public class Evaluation {
     }
 
     public Evaluation(Session session, int expressiveness, int diction, int emotion, String notes) {
-        this.session = new Session();
+        this.session = session;
         this.expressiveness = expressiveness;
         this.diction = diction;
         this.emotion = emotion;

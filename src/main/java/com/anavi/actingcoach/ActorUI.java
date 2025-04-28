@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -257,48 +258,125 @@ public class ActorUI extends ActingCoachUI {
     }
 
     private void modifySession() {
-        actor.viewSessions();
 
         List<Session> sessions = actor.getSessions();
         if (sessions.isEmpty()) {
+            System.out.println("You have no sessions booked.");
             return;
         }
 
-        System.out.println("Enter the index of the session you want to update: ");
-        int index = scanner.nextInt();
-        scanner.nextLine();
+        actor.viewSessions();
 
-        if (index < 1 || index > sessions.size()) {
-            System.out.println("Not a valid index");
-            return;
-        }
+        try {
+            System.out.println("Enter the index of the session you want to update: ");
+            int index = Integer.parseInt(scanner.nextLine());
 
-        Session session = sessions.get(index - 1);
-
-        System.out.print("Enter new date and time (dd.MM.yyyy HH:mm): ");
-        String dateInput = scanner.nextLine();
-        LocalDateTime dateTime = LocalDateTime.parse(dateInput, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
-
-        System.out.print("Enter new instructor's name: ");
-        String instructorName = scanner.nextLine();
-        Instructor instructor = authSystem.findInstructorByName(instructorName);
-        if (instructor == null) {
-            System.out.println("Instructor not found.");
-            return;
-        }
-
-        System.out.println("Is this a group session? (yes/no): ");
-        boolean isGroupSession = scanner.nextLine().equalsIgnoreCase("yes");
-
-        List<String> otherActors = new ArrayList<>();
-        if (isGroupSession) {
-            System.out.print("Enter names of other actors (comma separated): ");
-            String[] actorNames = scanner.nextLine().split(",");
-            for (String name : actorNames) {
-                otherActors.add(name.trim());
+            if (index < 1 || index > sessions.size()) {
+                System.out.println("Not a valid session index.");
+                return;
             }
+
+            Session session = sessions.get(index - 1);
+
+            if (session.isCanceled()) {
+                System.out.println("Session has been canceled and cannot be modified.");
+                return;
+            }
+
+            boolean submenu = true;
+            while (submenu) {
+                System.out.println("\n=== Modify Session ===");
+                System.out.println("1. Change Date/Time");
+                System.out.println("2. Add Actors");
+                System.out.println("3. Remove Some Actors");
+                System.out.println("4. Remove All Other Actors");
+                System.out.println("0. Cancel");
+
+                System.out.println("Choose an option: ");
+                String choice = scanner.nextLine();
+
+                switch (choice) {
+                    case "1":
+                        System.out.print("Enter new date and time (dd.MM.yyyy HH:mm): ");
+                        String dateInput = scanner.nextLine();
+                        try {
+                            LocalDateTime newDateTime = LocalDateTime.parse(dateInput, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+                            session.modifySessionByActor(newDateTime);
+                            System.out.println("Session date/time updated successfully.");
+                        } catch (DateTimeParseException e) {
+                            System.out.println("Invalid date format. Please use dd.MM.yyyy HH:mm");
+                        }
+                        break;
+
+                    case "2": // Add actors
+                        System.out.println("Enter names of actors to add (comma separated): ");
+                        String[] newActors = scanner.nextLine().split(",");
+
+                        for (String actorName : newActors) {
+                            session.getOtherActors().add(actorName.trim());
+                        }
+                        session.setGroupSession(true);
+                        session.calculateFee();
+                        System.out.println("Actors added successfully.");
+                        break;
+
+                    case "3": // Remove some actors
+                        List<String> currentActors = session.getOtherActors();
+                        if (currentActors.isEmpty()) {
+                            System.out.println("There are no other actors to remove.");
+                            break;
+                        }
+
+                        System.out.println("Current list of actors: " + String.join(", ", currentActors));
+                        System.out.print("Enter names of actors to remove (comma separated): ");
+
+                        String[] removeActors = scanner.nextLine().split(",");
+
+                        for (String removeName : removeActors) {
+                            Iterator<String> iterator = currentActors.iterator();
+                            boolean found = false;
+                            while (iterator.hasNext()) {
+                                String actorName = iterator.next();
+                                if (actorName.equalsIgnoreCase(removeName.trim())) {
+                                    iterator.remove();
+                                    found = true;
+                                }
+                            }
+                            if (!found) {
+                                System.out.println("Actor " + removeName.trim() + " not found in the session.");
+                            }
+                        }
+
+                        if (currentActors.isEmpty()) {
+                            session.setGroupSession(false);
+                            System.out.println("All other actors removed. Session is now a solo session.");
+                        } else {
+                            session.setGroupSession(true);
+                            System.out.println("Actors removed successfully.");
+                        }
+                        session.calculateFee();
+                        break;
+
+                    case "4": // Remove all other actors
+                        session.getOtherActors().clear();
+                        session.calculateFee();
+                        session.setGroupSession(false);
+                        System.out.println("All other actors removed. Session is now a solo session.");
+                        break;
+
+                    case "0":
+                        submenu = false;
+                        System.out.println("No changes made.");
+                        break;
+
+                    default:
+                        System.out.println("Not a valid option.");
+                        break;
+                }
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Not a valid input. Please enter a valid number.");
         }
-        actor.modifySession(session, dateTime, instructor, isGroupSession, otherActors);
     }
 
     public void manageJournal() {

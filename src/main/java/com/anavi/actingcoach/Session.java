@@ -37,7 +37,7 @@ public class Session {
         this.evaluation = new Evaluation();
         this.isGroupSession = false;
         this.canceled = false;
-        this.fee = RATE_PER_HOUR * 1.5;
+        calculateFee();
     }
 
     public Session(LocalDateTime dateTime, Instructor instructor, Actor actor) {
@@ -49,7 +49,7 @@ public class Session {
         this.evaluation = new Evaluation();
         this.isGroupSession = false;
         this.canceled = false;
-        this.fee = RATE_PER_HOUR * 1.5;
+        calculateFee();
     }
 
     //GETTERS/SETTERS
@@ -141,17 +141,11 @@ public class Session {
         }
     }
 
-    public void modifySessionByActor(Instructor newInstructor, List<String> newOtherActors, LocalDateTime newDateTime) {
+    public void modifySessionByActor(LocalDateTime newDateTime) {
         if (!canceled && newDateTime.isAfter(LocalDateTime.now())) {
             this.dateTime = newDateTime;
         } else {
             System.out.println("Not a valid date. Please look to the future and let go of the past.");
-        }
-        if (newInstructor != null) {
-            this.instructor = newInstructor;
-        }
-        if (newOtherActors != null && !newOtherActors.isEmpty()) {
-            this.otherActors = newOtherActors;
         }
         System.out.println("Session updated successfully.");
     }
