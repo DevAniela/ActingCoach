@@ -62,7 +62,7 @@ public class InstructorUI extends ActingCoachUI {
         }
 
         System.out.println("\n=== Evaluating " + session.getActor().getName() + " ===");
-        
+
         int expressiveness = getValidRating("expressiveness");
         int diction = getValidRating("diction");
         int emotion = getValidRating("emotion");

@@ -133,13 +133,14 @@ public class ActorUI extends ActingCoachUI {
         System.out.print("Enter character's background: ");
         String background = scanner.nextLine();
 
-        System.out.print("Enter character's motivations: ");
-        String motivations = scanner.nextLine();
+        System.out.print("Enter character's motivation: ");
+        String motivation = scanner.nextLine();
 
         System.out.print("Enter character's notes: ");
         String notes = scanner.nextLine();
 
-        actor.createAndAddCharacterSheet(name, personality, physical, background, motivations, notes);
+        actor.createAndAddCharacterSheet(name, personality, physical, background, motivation, notes);
+        System.out.println("Character sheet created for " + name + ".");
     }
 
     public void updateCharacterSheet() {
@@ -170,13 +171,13 @@ public class ActorUI extends ActingCoachUI {
         System.out.print("Enter character's background: ");
         String background = scanner.nextLine();
 
-        System.out.print("Enter character's motivations: ");
-        String motivations = scanner.nextLine();
+        System.out.print("Enter character's motivation: ");
+        String motivation = scanner.nextLine();
 
         System.out.print("Enter character's notes: ");
         String notes = scanner.nextLine();
 
-        CharacterSheet updatedSheet = new CharacterSheet(actor, name, personality, physical, background, motivations, notes);
+        CharacterSheet updatedSheet = new CharacterSheet(actor, name, personality, physical, background, motivation, notes);
         actor.updateCharacterSheet(index - 1, updatedSheet);
     }
 

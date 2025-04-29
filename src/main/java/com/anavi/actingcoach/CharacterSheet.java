@@ -19,7 +19,7 @@ public class CharacterSheet {
     private List<String> personalityTraits;
     private List<String> physicalTraits;
     private String background;
-    private String motivations;
+    private String motivation;
     private String notes;
 
     //CONSTRUCTORS
@@ -29,7 +29,7 @@ public class CharacterSheet {
         this.personalityTraits = new ArrayList<>();
         this.physicalTraits = new ArrayList<>();
         this.background = "";
-        this.motivations = "";
+        this.motivation = "";
         this.notes = "";
     }
 
@@ -39,17 +39,17 @@ public class CharacterSheet {
         this.personalityTraits = new ArrayList<>();
         this.physicalTraits = new ArrayList<>();
         this.background = "";
-        this.motivations = "";
+        this.motivation = "";
         this.notes = "";
     }
 
-    public CharacterSheet(Actor actor, String characterName, List<String> personalityTraits, List<String> physicalTraits, String background, String motivations, String notes) {
+    public CharacterSheet(Actor actor, String characterName, List<String> personalityTraits, List<String> physicalTraits, String background, String motivation, String notes) {
         this.actor = actor;
         this.characterName = characterName;
         this.personalityTraits = personalityTraits;
         this.physicalTraits = physicalTraits;
         this.background = background;
-        this.motivations = motivations;
+        this.motivation = motivation;
         this.notes = notes;
     }
 
@@ -74,8 +74,8 @@ public class CharacterSheet {
         this.physicalTraits = newPhysicalTraits;
     }
 
-    public void setMotivations(String newMotivations) {
-        this.motivations = newMotivations;
+    public void setMotivation(String newMotivation) {
+        this.motivation = newMotivation;
     }
 
     public void setNotes(String newNotes) {

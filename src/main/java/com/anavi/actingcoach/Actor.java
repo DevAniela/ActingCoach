@@ -104,13 +104,13 @@ public class Actor extends User {
         }
     }
 
-    public void createAndAddCharacterSheet(String characterName, List<String> personalityTraits, List<String> physicalTraits, String background, String motivations, String notes) {
+    public void createAndAddCharacterSheet(String characterName, List<String> personalityTraits, List<String> physicalTraits, String background, String motivation, String notes) {
         CharacterSheet sheet = new CharacterSheet(this, characterName);
         sheet.setCharacterName(characterName);
         sheet.setPersonalityTraits(personalityTraits);
         sheet.setPhysicalTraits(physicalTraits);
         sheet.setBackground(background);
-        sheet.setMotivations(motivations);
+        sheet.setMotivation(motivation);
         sheet.setNotes(notes);
         characterSheets.add(sheet);
     }
@@ -119,21 +119,22 @@ public class Actor extends User {
         if (characterSheets.isEmpty()) {
             System.out.println("No character sheets available.");
         } else {
-            System.out.println("Character sheets: ");
+            System.out.println("\n=== Your character sheets ===");
             for (int i = 0; i < characterSheets.size(); i++) {
                 System.out.println((i + 1) + ". " + characterSheets.get(i).getCharacterName());
             }
         }
     }
 
-    public void updateCharacterSheet(int index, String newCharacterName, List<String> newPersonalityTraits, List<String> newPhysicalTraits, String newBackground, String newMotivations, String newNotes) {
+    // TODO: Currently unused. Keep for potential future GUI-based character editing
+    public void updateCharacterSheet(int index, String newCharacterName, List<String> newPersonalityTraits, List<String> newPhysicalTraits, String newBackground, String newMotivation, String newNotes) {
         if (index >= 0 && index < characterSheets.size()) {
             CharacterSheet sheet = characterSheets.get(index);
             sheet.setCharacterName(newCharacterName);
             sheet.setPersonalityTraits(newPersonalityTraits);
             sheet.setPhysicalTraits(newPhysicalTraits);
             sheet.setBackground(newBackground);
-            sheet.setMotivations(newMotivations);
+            sheet.setMotivation(newMotivation);
             sheet.setNotes(newNotes);
         } else {
             System.out.println("Not a valid character sheet index");
@@ -176,10 +177,10 @@ public class Actor extends User {
         }
     }
 
-    public void updateCharacterMotivations(int index, String newMotivations) {
+    public void updateCharacterMotivation(int index, String newMotivation) {
         if (index >= 0 && index < characterSheets.size()) {
-            characterSheets.get(index).setMotivations(newMotivations);
-            System.out.println("Character motivations updated.");
+            characterSheets.get(index).setMotivation(newMotivation);
+            System.out.println("Character motivation updated.");
         } else {
             System.out.println("Not a valid character sheet index.");
         }
@@ -197,6 +198,7 @@ public class Actor extends User {
     public void deleteCharacterSheet(int index) {
         if (index >= 0 && index < characterSheets.size()) {
             characterSheets.remove(index);
+            System.out.println("Character sheet " + index + " removed.");
         } else {
             System.out.println("Not a valid character sheet index.");
         }
@@ -205,7 +207,7 @@ public class Actor extends User {
     public void updateCharacterSheet(int index, CharacterSheet updatedSheet) {
         if (index >= 0 && index < characterSheets.size()) {
             characterSheets.set(index, updatedSheet);
-            System.out.println("Character sheet updated.");
+            System.out.println("Character sheet for " + updatedSheet.getCharacterName() + " updated.");
         } else {
             System.out.println("Not a valid character sheet index.");
         }
@@ -221,7 +223,7 @@ public class Actor extends User {
         System.out.println("\n=== Your Sessions ===");
         for (int i = 0; i < sessions.size(); i++) {
             Session s = sessions.get(i);
-            System.out.println((i + 1) + ". " + s.getDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + " with " + s.getInstructor().getName() + (s.isCanceled() ? " [Canceled]" : ""));
+            System.out.println((i + 1) + ". " + s.getDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + " with " + s.getInstructor().getName() + (s.isCanceled() ? " [CANCELED]" : ""));
         }
     }
 
@@ -249,7 +251,7 @@ public class Actor extends User {
     public void cancelSession(Session session) {
         if (sessions.contains(session)) {
             session.setCanceled(true);
-            System.out.println("Session canceled.");
+            System.out.println("Session on " + session.getDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + " canceled.");
         } else {
             System.out.println("Couldn't find session.");
         }
@@ -264,6 +266,7 @@ public class Actor extends User {
         Session session = sessions.get(index - 1);
         if (!session.isCanceled()) {
             session.cancelSession();
+            System.out.println("Session " + index + " canceled.");
         }
     }
 

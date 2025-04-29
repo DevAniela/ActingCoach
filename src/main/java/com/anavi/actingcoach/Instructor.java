@@ -51,7 +51,7 @@ public class Instructor extends User {
             }
 
             if (session.isCanceled()) {
-                sessionInfo.append(" (CANCELLED)");
+                sessionInfo.append(" [CANCELED]");
             }
             return sessionInfo.toString();
         } else {
@@ -141,13 +141,13 @@ public class Instructor extends User {
     }
 
     public void addExercise(String exercise) {
-        System.out.println("Exercise added: " + exercise);
-        //TO DO: add Improvisation system, and database to save exercises
+        System.out.println("Exercise added.");
+        // TODO: Connect to database and insert exercise into 'Exercises' table
     }
 
     public void addDialogueLine(String line) {
-        System.out.println("Dialogue line added: " + line);
-        //TO DO: add Improvisation system, and database to save lines
+        System.out.println("Dialogue line added.");
+        // TODO: Connect to database and insert line into 'DialogueLines' table
     }
 
     @Override
