@@ -29,6 +29,11 @@ public class Instructor extends User {
         this.sessions = new ArrayList<>();
     }
 
+    public Instructor(int id, String name, String email, String password, String role) {
+        super(id, name, email, password, role);
+        this.sessions = new ArrayList<>();
+    }
+
     //GETTERS/SETTERS
     public List<Session> getSessions() {
         return this.sessions;
