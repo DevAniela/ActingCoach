@@ -15,18 +15,21 @@ public class Invoice {
     private Session session;
     private double amount;
     private boolean isPaid;
+    private int actorId;
 
     //CONSTRUCTORS
     public Invoice() {
         this.session = null;
         this.amount = 0.0;
         this.isPaid = false;
+        this.actorId = -1;
     }
 
-    public Invoice(Session session, double amount, boolean isPaid) {
+    public Invoice(Session session, double amount, boolean isPaid, int actorId) {
         this.session = session;
         this.amount = amount;
         this.isPaid = isPaid;
+        this.actorId = actorId;
     }
 
     //GETTERS/SETTERS

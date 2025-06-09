@@ -55,6 +55,10 @@ public class Actor extends User {
     }
 
     //GETTERS/SETTERS
+    public int getId() {
+        return this.id;
+    }
+    
     public List<CharacterSheet> getCharacterSheets() {
         return characterSheets;
     }
@@ -294,7 +298,7 @@ public class Actor extends User {
     }
 
     public void addJournalEntry(String title, String content) {
-        journalEntries.add(new JournalEntry(title, content));
+        journalEntries.add(new JournalEntry(getId(), title, content));
         System.out.println("Journal entry added.");
     }
 
