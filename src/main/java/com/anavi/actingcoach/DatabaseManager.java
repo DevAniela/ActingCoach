@@ -98,6 +98,18 @@ public class DatabaseManager {
             )
         """;        
         
+        String createEvaluationsTable = """
+            CREATE TABLE IF NOT EXISTS Evaluations(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                session_id INTEGER NOT NULL,
+                expressiveness INTEGER NOT NULL,
+                diction INTEGER NOT NULL,
+                emotion INTEGER NOT NULL,
+                notes TEXT,
+                FOREIGN KEY(session_id) REFERENCES Sessions(id)
+            );                                                                                
+        """;
+        
         String createDialogueLinesTable = """
             CREATE TABLE IF NOT EXISTS DialogueLines(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -121,6 +133,7 @@ public class DatabaseManager {
             stmt.execute(createJournalEntriesTable);
             stmt.execute(createImprovisationsTable);
             stmt.execute(createInvoicesTable);
+            stmt.execute(createEvaluationsTable);
             stmt.execute(createDialogueLinesTable);
             stmt.execute(createExercisesTable);
         } catch (SQLException e) {
