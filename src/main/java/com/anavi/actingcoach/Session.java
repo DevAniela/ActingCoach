@@ -42,8 +42,8 @@ public class Session {
         calculateFee();
     }
 
-    public Session(int sessionId, LocalDateTime dateTime, Instructor instructor, Actor actor) {
-        this.sessionId = sessionId;
+    public Session(LocalDateTime dateTime, Instructor instructor, Actor actor) {
+        this.sessionId = -1; // placeholder, not yet stored in DB
         this.dateTime = dateTime;
         this.instructor = instructor;
         this.actor = actor;
@@ -54,9 +54,9 @@ public class Session {
         this.canceled = false;
         calculateFee();
     }
-    
-    public Session(LocalDateTime dateTime, Instructor instructor, Actor actor) {
-        this.sessionId = -1; // placeholder, not yet stored in DB
+
+    public Session(int sessionId, LocalDateTime dateTime, Instructor instructor, Actor actor) {
+        this.sessionId = sessionId;
         this.dateTime = dateTime;
         this.instructor = instructor;
         this.actor = actor;
@@ -72,7 +72,7 @@ public class Session {
     public int getSessionId() {
         return this.sessionId;
     }
-    
+
     public LocalDateTime getDateTime() {
         return dateTime;
     }
