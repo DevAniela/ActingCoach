@@ -24,7 +24,7 @@ public class DatabaseManager {
                 role TEXT NOT NULL
             );
         """;
-        
+
         String createActorsTable = """
             CREATE TABLE IF NOT EXISTS Actors (
                 id INTEGER PRIMARY KEY,
@@ -42,8 +42,9 @@ public class DatabaseManager {
                     physical_traits TEXT,
                     background TEXT, 
                     motivation TEXT,
+                    notes TEXT,
                     FOREIGN KEY (actor_id) REFERENCES Users(id)
-            )
+            );
         """;
 
         String createSessionsTable = """
@@ -58,11 +59,11 @@ public class DatabaseManager {
                     is_group_session INTEGER,
                     canceled INTEGER,
                     fee REAL,
-                    FOREIGN KEY (actor_id) REFERENCES Users(id)),
-                    FOREIGN KEY (instructor_id) REFERENCES Users(id))
+                    FOREIGN KEY (actor_id) REFERENCES Users(id),
+                    FOREIGN KEY (instructor_id) REFERENCES Users(id)
             )                                                      
         """;
-        
+
         String createJournalEntriesTable = """
             CREATE TABLE IF NOT EXISTS JournalEntries (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -73,7 +74,7 @@ public class DatabaseManager {
                     FOREIGN KEY (actor_id) REFERENCES Users(id)
             )
         """;
-        
+
         String createImprovisationsTable = """
             CREATE TABLE IF NOT EXISTS Improvisations (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -85,7 +86,7 @@ public class DatabaseManager {
                     FOREIGN KEY (actor_id) REFERENCES Users(id)
             )
         """;
-        
+
         String createInvoicesTable = """
             CREATE TABLE IF NOT EXISTS Invoices (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -96,8 +97,8 @@ public class DatabaseManager {
                     FOREIGN KEY (actor_id) REFERENCES Users(id),
                     FOREIGN KEY (session_id) REFERENCES Sessions(id)
             )
-        """;        
-        
+        """;
+
         String createEvaluationsTable = """
             CREATE TABLE IF NOT EXISTS Evaluations(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -109,7 +110,7 @@ public class DatabaseManager {
                 FOREIGN KEY(session_id) REFERENCES Sessions(id)
             );                                                                                
         """;
-        
+
         String createDialogueLinesTable = """
             CREATE TABLE IF NOT EXISTS DialogueLines(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,

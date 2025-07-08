@@ -61,24 +61,48 @@ public class CharacterSheet {
     public void setCharacterName(String newCharacterName) {
         this.characterName = newCharacterName;
     }
+    
+    public String getBackground() {
+        return background;
+    }
 
     public void setBackground(String newBackground) {
         this.background = newBackground;
     }
 
+    public List<String> getPersonalityTraits() {
+        return personalityTraits;
+    }
+    
     public void setPersonalityTraits(List<String> newPersonalityTraits) {
         this.personalityTraits = newPersonalityTraits;
+    }
+    
+    public List<String> getPhysicalTraits() {
+        return physicalTraits;
     }
 
     public void setPhysicalTraits(List<String> newPhysicalTraits) {
         this.physicalTraits = newPhysicalTraits;
     }
+    
+    public String getMotivation() {
+        return motivation;
+    }
 
     public void setMotivation(String newMotivation) {
         this.motivation = newMotivation;
     }
+    
+    public String getNotes() {
+        return notes;
+    }
 
     public void setNotes(String newNotes) {
         this.notes = newNotes;
+    }
+    
+    public Actor getActor() {
+        return actor;
     }
 }
