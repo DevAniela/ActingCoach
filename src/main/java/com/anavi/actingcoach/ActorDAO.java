@@ -106,4 +106,21 @@ public class ActorDAO {
         }
     }
 
+    public void deleteCharacterSheet(int id) {
+        String sql = "DELETE FROM CharacterSheets WHERE id = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("Character sheet deleted successfully.");
+            } else {
+                System.out.println("No character sheet found with id " + id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
