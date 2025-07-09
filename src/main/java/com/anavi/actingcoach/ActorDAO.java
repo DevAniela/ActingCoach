@@ -2,7 +2,11 @@ package com.anavi.actingcoach;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.StringJoiner;
 
 public class ActorDAO {
@@ -39,6 +43,33 @@ public class ActorDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<CharacterSheet> getCharacterSheetsByActorId(int actorId) {
+        List<CharacterSheet> sheets = new ArrayList<>();
+
+        String sql = "SELECT character_name, personality_traits, physical_traits, background, motivation, notes FROM CharacterSheets WHERE actor_id = ?";
+
+        try (Connection con = DatabaseManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, actorId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                CharacterSheet sheet = new CharacterSheet();
+                sheet.setCharacterName(rs.getString("character_name"));
+                sheet.setPersonalityTraits(Arrays.asList(rs.getString("personality_traits").split(",\\s*")));
+                sheet.setPhysicalTraits(Arrays.asList(rs.getString("physical_traits").split(",\\s*")));
+                sheet.setBackground(rs.getString("background"));
+                sheet.setMotivation(rs.getString("motivation"));
+                sheet.setNotes(rs.getString("notes"));
+
+                sheets.add(sheet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return sheets;
     }
 
     private String listToString(java.util.List<String> list) {

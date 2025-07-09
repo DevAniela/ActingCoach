@@ -6,6 +6,9 @@ dist/
 nbdist/
 .netbeans/
 
+# Ignore quick test folder
+devtest/
+
 # Ignore Maven target folder
 target/
 
