@@ -14,6 +14,7 @@ import java.util.List;
 public class CharacterSheet {
 
     //ATTRIBUTES
+    private int id;
     private Actor actor;
     private String characterName;
     private List<String> personalityTraits;
@@ -54,6 +55,14 @@ public class CharacterSheet {
     }
 
     //GETTERS/SETTERS
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getCharacterName() {
         return this.characterName;
     }
@@ -61,7 +70,7 @@ public class CharacterSheet {
     public void setCharacterName(String newCharacterName) {
         this.characterName = newCharacterName;
     }
-    
+
     public String getBackground() {
         return background;
     }
@@ -73,11 +82,11 @@ public class CharacterSheet {
     public List<String> getPersonalityTraits() {
         return personalityTraits;
     }
-    
+
     public void setPersonalityTraits(List<String> newPersonalityTraits) {
         this.personalityTraits = newPersonalityTraits;
     }
-    
+
     public List<String> getPhysicalTraits() {
         return physicalTraits;
     }
@@ -85,7 +94,7 @@ public class CharacterSheet {
     public void setPhysicalTraits(List<String> newPhysicalTraits) {
         this.physicalTraits = newPhysicalTraits;
     }
-    
+
     public String getMotivation() {
         return motivation;
     }
@@ -93,7 +102,7 @@ public class CharacterSheet {
     public void setMotivation(String newMotivation) {
         this.motivation = newMotivation;
     }
-    
+
     public String getNotes() {
         return notes;
     }
@@ -101,7 +110,7 @@ public class CharacterSheet {
     public void setNotes(String newNotes) {
         this.notes = newNotes;
     }
-    
+
     public Actor getActor() {
         return actor;
     }
