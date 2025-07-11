@@ -1,9 +1,9 @@
 package com.anavi.actingcoach;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class ActingCoachApp extends Application {
@@ -15,12 +15,13 @@ public class ActingCoachApp extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
-        Label label = new Label("Welcome to Acting Coach!");
-        StackPane root = new StackPane(label);
+    public void start(Stage primaryStage) throws Exception {
+
+        Parent root = FXMLLoader.load(getClass().getResource("/com/anavi/actingcoach/ui/fxml/CharacterSheetsView.fxml"));
+
         Scene scene = new Scene(root, 600, 400);
 
-        primaryStage.setTitle("Acting Coach");
+        primaryStage.setTitle("Acting Coach - Character Sheets");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
