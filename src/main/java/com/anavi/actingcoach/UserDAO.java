@@ -36,9 +36,9 @@ public class UserDAO {
                     String password = rs.getString("password");
                     String role = rs.getString("role");
 
-                    if (role.equalsIgnoreCase("Actor")) {
+                    if (role.equalsIgnoreCase(User.ROLE_ACTOR)) {
                         return new Actor(id, name, email, password, role);
-                    } else if (role.equalsIgnoreCase("Instructor")) {
+                    } else if (role.equalsIgnoreCase(User.ROLE_INSTRUCTOR)) {
                         return new Instructor(id, name, email, password, role);
                     } else {
                         System.err.println("Role " + role + " not found.");

@@ -13,9 +13,13 @@ public abstract class User {
     //ATRIBUTE
     protected int id;
     protected String name, email, password, role;
+    
+    public static final String ROLE_ACTOR = "Actor";
+    public static final String ROLE_INSTRUCTOR = "Instructor";
 
     //CONSTRUCTOR
     public User() {
+        this.id = -1;
         this.name = "";
         this.email = "";
         this.password = "";
@@ -23,6 +27,7 @@ public abstract class User {
     }
 
     public User(String name, String email, String password, String role) {
+        this.id = -1;
         this.name = name;
         this.email = email;
         this.password = password;
@@ -68,6 +73,14 @@ public abstract class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+    
+    public int getId() {
+        return id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
     }
 
     //METODE ABSTRACTE

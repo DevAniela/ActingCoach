@@ -54,6 +54,17 @@ public class CharacterSheet {
         this.notes = notes;
     }
 
+    public CharacterSheet(int id, Actor actor, String characterName, List<String> personalityTraits, List<String> physicalTraits, String background, String motivation, String notes) {
+        this.id = id;
+        this.actor = actor;
+        this.characterName = characterName;
+        this.personalityTraits = personalityTraits;
+        this.physicalTraits = physicalTraits;
+        this.background = background;
+        this.motivation = motivation;
+        this.notes = notes;
+    }
+
     //GETTERS/SETTERS
     public int getId() {
         return id;

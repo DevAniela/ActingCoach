@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class Improvisation {
 
     //ATTRIBUTES
+    private int id;
     private int actorId;
     private String promptStart;
     private String promptEnd;
@@ -20,21 +21,47 @@ public class Improvisation {
     private LocalDateTime endDateTime;
 
     //CONSTRUCTORS
+    public Improvisation() {
+        this.id = -1;
+        this.actorId = -1;
+        this.promptStart = "";
+        this.promptEnd = "";
+        this.startDateTime = null;
+        this.endDateTime = null;
+    }
+
     public Improvisation(String promptStart, String promptEnd) {
         this.promptStart = promptStart;
         this.promptEnd = promptEnd;
         this.startDateTime = LocalDateTime.now();
-        this.actorId = -1; // placeholder
+        this.actorId = -1;
+        this.id = -1;
     }
-    
-        public Improvisation(String promptStart, String promptEnd, int actorId) {
+
+    public Improvisation(String promptStart, String promptEnd, int actorId) {
         this.promptStart = promptStart;
         this.promptEnd = promptEnd;
         this.startDateTime = LocalDateTime.now();
         this.actorId = actorId;
     }
 
+    public Improvisation(String promptStart, String promptEnd, int actorId, int id) {
+        this.promptStart = promptStart;
+        this.promptEnd = promptEnd;
+        this.startDateTime = LocalDateTime.now();
+        this.actorId = actorId;
+        this.id = id;
+    }
+
     //GETTERS/SETTERS
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getActorId() {
         return this.actorId;
     }

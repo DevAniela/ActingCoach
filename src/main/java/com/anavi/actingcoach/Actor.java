@@ -55,10 +55,6 @@ public class Actor extends User {
     }
 
     //GETTERS/SETTERS
-    public int getId() {
-        return this.id;
-    }
-    
     public List<CharacterSheet> getCharacterSheets() {
         return characterSheets;
     }

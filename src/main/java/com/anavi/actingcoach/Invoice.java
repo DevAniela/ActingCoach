@@ -5,6 +5,7 @@
 package com.anavi.actingcoach;
 
 import java.time.format.DateTimeFormatter;
+
 /**
  *
  * @author Ana Vi
@@ -12,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 public class Invoice {
 
     //ATTRIBUTES
+    private int id;
     private Session session;
     private double amount;
     private boolean isPaid;
@@ -19,6 +21,7 @@ public class Invoice {
 
     //CONSTRUCTORS
     public Invoice() {
+        this.id = -1;
         this.session = null;
         this.amount = 0.0;
         this.isPaid = false;
@@ -33,6 +36,14 @@ public class Invoice {
     }
 
     //GETTERS/SETTERS
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Session getSession() {
         return this.session;
     }

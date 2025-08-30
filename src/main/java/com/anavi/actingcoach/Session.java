@@ -16,7 +16,7 @@ import java.util.List;
 public class Session {
 
     //ATTRIBUTES
-    private int sessionId;
+    private int id;
     private LocalDateTime dateTime;
     private Instructor instructor;
     private Actor actor;
@@ -30,7 +30,7 @@ public class Session {
 
     //CONSTRUCTORS
     public Session() {
-        this.sessionId = -1;
+        this.id = -1;
         this.dateTime = LocalDateTime.now();
         this.instructor = new Instructor();
         this.actor = new Actor();
@@ -43,7 +43,7 @@ public class Session {
     }
 
     public Session(LocalDateTime dateTime, Instructor instructor, Actor actor) {
-        this.sessionId = -1; // placeholder, not yet stored in DB
+        this.id = -1; // placeholder, not yet stored in DB
         this.dateTime = dateTime;
         this.instructor = instructor;
         this.actor = actor;
@@ -56,7 +56,7 @@ public class Session {
     }
 
     public Session(int sessionId, LocalDateTime dateTime, Instructor instructor, Actor actor) {
-        this.sessionId = sessionId;
+        this.id = sessionId;
         this.dateTime = dateTime;
         this.instructor = instructor;
         this.actor = actor;
@@ -69,8 +69,12 @@ public class Session {
     }
 
     //GETTERS/SETTERS
-    public int getSessionId() {
-        return this.sessionId;
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public LocalDateTime getDateTime() {

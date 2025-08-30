@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class JournalEntry {
 
     //ATTRIBUTES
+    private int id;
     private int actorId;
     private LocalDateTime dateTime;
     private String title;
@@ -19,6 +20,15 @@ public class JournalEntry {
     }
 
     public JournalEntry(int actorId, String title, String content) {
+        this.id = -1;
+        this.actorId = actorId;
+        this.dateTime = LocalDateTime.now();
+        this.title = title;
+        this.content = content;
+    }
+
+    public JournalEntry(int id, int actorId, String title, String content) {
+        this.id = id;
         this.actorId = actorId;
         this.dateTime = LocalDateTime.now();
         this.title = title;
@@ -29,11 +39,11 @@ public class JournalEntry {
     public int getActorId() {
         return actorId;
     }
-    
+
     public void setActorId(int actorId) {
         this.actorId = actorId;
     }
-    
+
     public LocalDateTime getDateTime() {
         return this.dateTime;
     }
@@ -56,6 +66,14 @@ public class JournalEntry {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     //METHODS

@@ -11,6 +11,7 @@ package com.anavi.actingcoach;
 public class Evaluation {
 
     //ATTRIBUTES
+    private int id;
     private Session session;
     private int expressiveness;
     private int diction;
@@ -19,13 +20,15 @@ public class Evaluation {
 
     //CONSTRUCTORS
     public Evaluation() {
+        this.id = -1;
         this.expressiveness = 0;
         this.diction = 0;
         this.emotion = 0;
         this.notes = "";
     }
 
-    public Evaluation(Session session, int expressiveness, int diction, int emotion, String notes) {
+    public Evaluation(int id, Session session, int expressiveness, int diction, int emotion, String notes) {
+        this.id = id;
         this.session = session;
         this.expressiveness = expressiveness;
         this.diction = diction;
@@ -33,7 +36,19 @@ public class Evaluation {
         this.notes = notes;
     }
 
+    public Evaluation(Session session, int expressiveness, int diction, int emotion, String notes) {
+        this(-1, session, expressiveness, diction, emotion, notes);
+    }
+
     //GETTERS/SETTERS
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setScores(int expressiveness, int diction, int emotion) {
         this.expressiveness = expressiveness;
         this.diction = diction;
