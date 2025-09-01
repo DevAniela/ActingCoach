@@ -54,6 +54,16 @@ public class Actor extends User {
         this.pointsEarned = 0;
     }
 
+    public Actor(int id, String name, String email, String password, String role, int pointsEarned) {
+        super(name, email, password, role);
+        this.characterSheets = new ArrayList<>();
+        this.sessions = new ArrayList<>();
+        this.journalEntries = new ArrayList<>();
+        this.improvisations = new ArrayList<>();
+        this.invoiceHistory = new ArrayList<>();
+        this.pointsEarned = pointsEarned;
+    }
+
     //GETTERS/SETTERS
     public List<CharacterSheet> getCharacterSheets() {
         return characterSheets;
