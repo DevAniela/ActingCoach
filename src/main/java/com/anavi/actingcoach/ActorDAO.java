@@ -92,7 +92,28 @@ public class ActorDAO {
     }
 
     public List<Actor> getAllActors() throws SQLException {
-        // to do
+        String sql = """
+                     SELECT u.id, u.name, u.email, u.password, u.role, a.points_earned
+                     FROM Users u
+                     JOIN Actors a ON u.id = a.id
+                     """;
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            List<Actor> actors = new ArrayList<>();
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Actor actor = new Actor(
+                            rs.getInt("id"),
+                            rs.getString("name"),
+                            rs.getString("email"),
+                            rs.getString("password"),
+                            rs.getString("role"),
+                            rs.getInt("points_earned")
+                    );
+                    actors.add(actor);
+                }
+            }
+            return actors;
+        }
     }
 
     public void updateActor(Actor actor) throws SQLException {
