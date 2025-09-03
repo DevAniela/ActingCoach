@@ -16,87 +16,50 @@ public class ActorDAO {
         this.conn = conn;
     }
 
-    public void addCharacterSheet(CharacterSheet sheet, int actorId) throws SQLException {
-        String sql = """
-            INSERT INTO CharacterSheets (
-                     actor_id, 
-                     character_name, 
-                     personality_traits, 
-                     physical_traits, 
-                     background, 
-                     motivation, 
-                     notes
-                     ) VALUES (?, ?, ?, ?, ?, ?, ?);
-        """;
+    public void addActor(Actor actor) throws SQLException {
+        String insertUserSql = "INSERT INTO Users(name, email, password, role) VALUES (?, ?, ?, ?)";
+        String insertActorSql = "INSERT INTO Actors(id, points_earned) VALUES(?, ?)";
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, actorId);
-            pstmt.setString(2, sheet.getCharacterName());
-            pstmt.setString(3, String.join(", ", sheet.getPersonalityTraits()));
-            pstmt.setString(4, String.join(", ", sheet.getPhysicalTraits()));
-            pstmt.setString(5, sheet.getBackground());
-            pstmt.setString(6, sheet.getMotivation());
-            pstmt.setString(7, sheet.getNotes());
+        boolean previousAutoCommit = conn.getAutoCommit();
 
-            pstmt.executeUpdate();
-        }
-    }
+        try {
+            conn.setAutoCommit(false);
+            try (PreparedStatement userStmt = conn.prepareStatement(insertUserSql, java.sql.Statement.RETURN_GENERATED_KEYS)) {
+                userStmt.setString(1, actor.getName());
+                userStmt.setString(2, actor.getEmail());
+                userStmt.setString(3, actor.getPassword());
+                userStmt.setString(4, User.ROLE_ACTOR);
 
-    public List<CharacterSheet> getCharacterSheetsByActorId(int actorId) throws SQLException {
-        List<CharacterSheet> sheets = new ArrayList<>();
+                int affectedRows = userStmt.executeUpdate();
+                if (affectedRows == 0) {
+                    throw new SQLException("Creating user failed, no rows affected.");
+                }
 
-        String sql = "SELECT id, character_name, personality_traits, physical_traits, background, motivation, notes FROM CharacterSheets WHERE actor_id = ?";
-
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, actorId);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    CharacterSheet sheet = new CharacterSheet();
-                    sheet.setId(rs.getInt("id"));
-                    sheet.setCharacterName(rs.getString("character_name"));
-                    sheet.setPersonalityTraits(Arrays.asList(rs.getString("personality_traits").split(",\\s*")));
-                    sheet.setPhysicalTraits(Arrays.asList(rs.getString("physical_traits").split(",\\s*")));
-                    sheet.setBackground(rs.getString("background"));
-                    sheet.setMotivation(rs.getString("motivation"));
-                    sheet.setNotes(rs.getString("notes"));
-
-                    sheets.add(sheet);
+                try (ResultSet generatedKeys = userStmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int generatedId = generatedKeys.getInt(1);
+                        actor.setId(generatedId);
+                    } else {
+                        throw new SQLException("Creating user failed, no ID obtained.");
+                    }
                 }
             }
-        }
-        return sheets;
-    }
+            try (PreparedStatement actorStmt = conn.prepareStatement(insertActorSql)) {
+                actorStmt.setInt(1, actor.getId());
+                actorStmt.setInt(2, actor.getPointsEarned());
 
-    public void updateCharacterSheet(CharacterSheet sheet) throws SQLException {
-        String sql = """
-            UPDATE CharacterSheets SET
-                character_name = ?,
-                personality_traits = ?,
-                physical_traits = ?,
-                background = ?,
-                motivation = ?,
-                notes = ?
-            WHERE id = ?
-        """;
-
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, sheet.getCharacterName());
-            pstmt.setString(2, String.join(", ", sheet.getPersonalityTraits()));
-            pstmt.setString(3, String.join(", ", sheet.getPhysicalTraits()));
-            pstmt.setString(4, sheet.getBackground());
-            pstmt.setString(5, sheet.getMotivation());
-            pstmt.setString(6, sheet.getNotes());
-            pstmt.setInt(7, sheet.getId());
-        }
-    }
-
-    public void deleteCharacterSheet(int id) throws SQLException {
-        String sql = "DELETE FROM CharacterSheets WHERE id = ?";
-
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
+                actorStmt.executeUpdate();
+            }
+            conn.commit();
+        } catch (SQLException ex) {
+            try {
+                conn.rollback();
+            } catch (SQLException rollbackEx) {
+                ex.addSuppressed(rollbackEx);
+            }
+            throw ex;
+        } finally {
+            conn.setAutoCommit(previousAutoCommit);
         }
     }
 
@@ -126,5 +89,17 @@ public class ActorDAO {
             }
         }
         return null;
+    }
+
+    public List<Actor> getAllActors() throws SQLException {
+        // to do
+    }
+
+    public void updateActor(Actor actor) throws SQLException {
+        // to do
+    }
+
+    public void deleteActor(int id) throws SQLException {
+        // to do
     }
 }
