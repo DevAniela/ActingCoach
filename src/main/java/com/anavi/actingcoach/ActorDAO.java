@@ -170,6 +170,47 @@ public class ActorDAO {
     }
 
     public void deleteActor(int id) throws SQLException {
-        // to do
+        String deleteActorSql = """
+                                DELETE FROM Actors
+                                WHERE id = ?
+                                """;
+
+        String deleteUserSql = """
+                               DELETE FROM Users
+                               WHERE id = ?
+                               """;
+
+        boolean previousAutoCommit = conn.getAutoCommit();
+
+        try {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement actorStmt = conn.prepareStatement(deleteActorSql)) {
+                actorStmt.setInt(1, id);
+                int affectedRows = actorStmt.executeUpdate();
+                if (affectedRows == 0) {
+                    throw new SQLException("Deleting actor failed, no rows affected.");
+                }
+            }
+
+            try (PreparedStatement userStmt = conn.prepareStatement(deleteUserSql)) {
+                userStmt.setInt(1, id);
+                int affectedRows = userStmt.executeUpdate();
+                if (affectedRows == 0) {
+                    throw new SQLException("Deleting user failed, no rows affected.");
+                }
+            }
+
+            conn.commit();
+        } catch (SQLException ex) {
+            try {
+                conn.rollback();
+            } catch (SQLException rollbackEx) {
+                ex.addSuppressed(rollbackEx);
+            }
+            throw ex;
+        } finally {
+            conn.setAutoCommit(previousAutoCommit);
+        }
     }
 }
