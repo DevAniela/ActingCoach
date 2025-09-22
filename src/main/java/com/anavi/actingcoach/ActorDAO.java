@@ -117,7 +117,56 @@ public class ActorDAO {
     }
 
     public void updateActor(Actor actor) throws SQLException {
-        // to do
+        String updateUserSql = """
+                               UPDATE Users
+                               SET name = ?, email = ?, password = ?
+                               WHERE id = ?
+                               """;
+
+        String updateActorSql = """
+                                UPDATE Actors
+                                SET points_earned = ?
+                                WHERE id = ?
+                                """;
+
+        boolean previousAutoCommit = conn.getAutoCommit();
+
+        try {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement userStmt = conn.prepareStatement(updateUserSql)) {
+                userStmt.setString(1, actor.getName());
+                userStmt.setString(2, actor.getEmail());
+                userStmt.setString(3, actor.getPassword());
+                userStmt.setInt(4, actor.getId());
+
+                int affectedRows = userStmt.executeUpdate();
+                if (affectedRows == 0) {
+                    throw new SQLException("Updating user failed, no rows affected.");
+                }
+            }
+
+            try (PreparedStatement actorStmt = conn.prepareStatement(updateActorSql)) {
+                actorStmt.setInt(1, actor.getPointsEarned());
+                actorStmt.setInt(2, actor.getId());
+
+                int affectedRows = actorStmt.executeUpdate();
+                if (affectedRows == 0) {
+                    throw new SQLException("Updating actor failed, no rows affected.");
+                }
+            }
+
+            conn.commit();
+        } catch (SQLException ex) {
+            try {
+                conn.rollback();
+            } catch (SQLException rollbackEx) {
+                ex.addSuppressed(rollbackEx);
+            }
+            throw ex;
+        } finally {
+            conn.setAutoCommit(previousAutoCommit);
+        }
     }
 
     public void deleteActor(int id) throws SQLException {
