@@ -5,19 +5,26 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.List;
 
 public class CharacterSheetDAO {
 
+    private final Connection conn;
     private final ActorDAO actorDAO;
 
     public CharacterSheetDAO(Connection conn) {
+        this.conn = conn;
         this.actorDAO = new ActorDAO(conn);
+    }
+
+    public void addCharacterSheet(CharacterSheet sheet) throws SQLException {
+        // to do
     }
 
     public CharacterSheet getCharacterSheetById(int id) throws SQLException {
         String sql = "SELECT * FROM CharacterSheets WHERE id = ?";
 
-        try (Connection conn = DatabaseManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
 
@@ -41,5 +48,17 @@ public class CharacterSheetDAO {
             }
         }
         return null;
+    }
+
+    public List<CharacterSheet> getCharacterSheetsByActorId(int actorId) throws SQLException {
+        // to do
+    }
+
+    public void updateCharacterSheet(CharacterSheet sheet) throws SQLException {
+        // to do
+    }
+
+    public void deleteCharacterSheet(int id) throws SQLException {
+        // to do
     }
 }
