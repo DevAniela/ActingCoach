@@ -18,7 +18,35 @@ public class CharacterSheetDAO {
     }
 
     public void addCharacterSheet(CharacterSheet sheet) throws SQLException {
-        // to do
+        String insertCharacterSheetSql = """
+                                         INSERT INTO CharacterSheets(actor_id, character_name, personality_traits, physical_traits, background, motivation, notes)
+                                         VALUES(?, ?, ?, ?, ?, ?, ?)
+                                         """;
+
+        try (PreparedStatement characterSheetStmt = conn.prepareStatement(insertCharacterSheetSql, java.sql.Statement.RETURN_GENERATED_KEYS)) {
+            characterSheetStmt.setInt(1, sheet.getActor().getId());
+            characterSheetStmt.setString(2, sheet.getCharacterName());
+            characterSheetStmt.setString(3, String.join(", ", sheet.getPersonalityTraits()));
+            characterSheetStmt.setString(4, String.join(", ", sheet.getPhysicalTraits()));
+            characterSheetStmt.setString(5, sheet.getBackground());
+            characterSheetStmt.setString(6, sheet.getMotivation());
+            characterSheetStmt.setString(7, sheet.getNotes());
+
+            int affectedRows = characterSheetStmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Creating character sheet failed, no rows affected.");
+            }
+
+            try (ResultSet generatedKeys = characterSheetStmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    int generatedId = generatedKeys.getInt(1);
+                    sheet.setId(generatedId);
+                } else {
+                    throw new SQLException("Creating character sheet failed, no ID obtained.");
+                }
+            }
+        }
     }
 
     public CharacterSheet getCharacterSheetById(int id) throws SQLException {
