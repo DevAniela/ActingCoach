@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -79,14 +80,55 @@ public class CharacterSheetDAO {
     }
 
     public List<CharacterSheet> getCharacterSheetsByActorId(int actorId) throws SQLException {
-        // to do
+        List<CharacterSheet> sheets = new ArrayList<>();
+        String sql = "SELECT * FROM CharacterSheets WHERE actor_id = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, actorId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Actor actor = actorDAO.getActorById(actorId);
+                    CharacterSheet sheet = new CharacterSheet(
+                            rs.getInt("id"),
+                            actor,
+                            rs.getString("character_name"),
+                            Arrays.asList(rs.getString("personality_traits").split(",\\s*")),
+                            Arrays.asList(rs.getString("physical_traits").split(",\\s*")),
+                            rs.getString("background"),
+                            rs.getString("motivation"),
+                            rs.getString("notes")
+                    );
+                    sheets.add(sheet);
+                }
+            }
+        }
+        return sheets;
     }
 
     public void updateCharacterSheet(CharacterSheet sheet) throws SQLException {
-        // to do
+        String sql = """
+        UPDATE CharacterSheets
+        SET character_name=?, personality_traits=?, physical_traits=?, background=?, motivation=?, notes=?
+        WHERE id=?
+    """;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, sheet.getCharacterName());
+            pstmt.setString(2, String.join(", ", sheet.getPersonalityTraits()));
+            pstmt.setString(3, String.join(", ", sheet.getPhysicalTraits()));
+            pstmt.setString(4, sheet.getBackground());
+            pstmt.setString(5, sheet.getMotivation());
+            pstmt.setString(6, sheet.getNotes());
+            pstmt.setInt(7, sheet.getId());
+            pstmt.executeUpdate();
+        }
     }
 
     public void deleteCharacterSheet(int id) throws SQLException {
-        // to do
+        String sql = "DELETE FROM CharacterSheets WHERE id=?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        }
     }
 }
